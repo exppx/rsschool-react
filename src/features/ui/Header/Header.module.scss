@@ -1,0 +1,18 @@
+.header {
+  background-color: var(--color-primary-500);
+  border-bottom: 1px solid var(--color-primary-900);
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.heading {
+  text-align: center;
+  color: var(--color-light-300);
+}

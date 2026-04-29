@@ -1,0 +1,171 @@
+@use './styles/mixins' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* light */
+  --color-light-50: #ffffff;
+  --color-light-100: #ffffff;
+  --color-light-200: #fbfbfb;
+  --color-light-300: #f5f5f5;
+  --color-light-400: #e9e9e9;
+  --color-light-500: #dbd9d9;
+  --color-light-600: #c9c7c7;
+  --color-light-700: #b5b3b3;
+  --color-light-800: #9e9c9c;
+  --color-light-900: #8f8d8d;
+  --color-light-950: #7a7878;
+
+  /* white */
+  --color-white-50: #ffffff;
+  --color-white-100: #ffffff;
+  --color-white-200: #ffffff;
+  --color-white-300: #ffffff;
+  --color-white-400: #f7f7f7;
+  --color-white-500: #ffffff;
+  --color-white-600: #f0f0f0;
+  --color-white-700: #e6e6e6;
+  --color-white-800: #d6d6d6;
+  --color-white-900: #cccccc;
+  --color-white-950: #bdbdbd;
+
+  /* dark */
+  --color-dark-50: #e6e9ef;
+  --color-dark-100: #d0d3da;
+  --color-dark-200: #a9b0bf;
+  --color-dark-300: #7a8496;
+  --color-dark-400: #4f5a6f;
+  --color-dark-500: #121b2d;
+  --color-dark-600: #0f1726;
+  --color-dark-700: #0d1422;
+  --color-dark-800: #0a101b;
+  --color-dark-900: #070c14;
+  --color-dark-950: #05080f;
+
+  /* primary */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #cdd6f3;
+  --color-primary-200: #aab7e6;
+  --color-primary-300: #6f86d6;
+  --color-primary-400: #3f5fc4;
+  --color-primary-500: #0c31a7;
+  --color-primary-600: #0a2b92;
+  --color-primary-700: #09257d;
+  --color-primary-800: #071e66;
+  --color-primary-900: #061a54;
+  --color-primary-950: #04113a;
+
+  /* secondary */
+  --color-secondary-50: #f2f5f5;
+  --color-secondary-100: #d5dddc;
+  --color-secondary-200: #b7c6c5;
+  --color-secondary-300: #93a7a5;
+  --color-secondary-400: #6f8a88;
+  --color-secondary-500: #556e6c;
+  --color-secondary-600: #455a58;
+  --color-secondary-700: #405352;
+  --color-secondary-800: #334443;
+  --color-secondary-900: #2b3837;
+  --color-secondary-950: #1d2625;
+
+  /* info */
+  --color-info-50: #e6f6ff;
+  --color-info-100: #cceaff;
+  --color-info-200: #99d5ff;
+  --color-info-300: #66c2ff;
+  --color-info-400: #33adff;
+  --color-info-500: #0097f5;
+  --color-info-600: #007fd1;
+  --color-info-700: #0071b8;
+  --color-info-800: #005c94;
+  --color-info-900: #004b7a;
+  --color-info-950: #003452;
+
+  /* success */
+  --color-success-50: #e6f7f0;
+  --color-success-100: #ccefe1;
+  --color-success-200: #99dfc3;
+  --color-success-300: #66cfa5;
+  --color-success-400: #33bf87;
+  --color-success-500: #009e5b;
+  --color-success-600: #00874e;
+  --color-success-700: #007644;
+  --color-success-800: #005f37;
+  --color-success-900: #004f2d;
+  --color-success-950: #00361f;
+
+  /* warning */
+  --color-warning-50: #fffbe6;
+  --color-warning-100: #f7f1cc;
+  --color-warning-200: #efe399;
+  --color-warning-300: #eadf66;
+  --color-warning-400: #e5d433;
+  --color-warning-500: #e0ca00;
+  --color-warning-600: #c7b400;
+  --color-warning-700: #a89a00;
+  --color-warning-800: #867b00;
+  --color-warning-900: #706700;
+  --color-warning-950: #4d4800;
+
+  /* danger */
+  --color-danger-50: #ffeceb;
+  --color-danger-100: #fbd1cc;
+  --color-danger-200: #f7a39a;
+  --color-danger-300: #f57766;
+  --color-danger-400: #f04c33;
+  --color-danger-500: #ee1b00;
+  --color-danger-600: #d31700;
+  --color-danger-700: #b31200;
+  --color-danger-800: #8f0e00;
+  --color-danger-900: #780c00;
+  --color-danger-950: #520800;
+
+  /* disabled */
+  --color-disabled-50: #f7f7f7;
+  --color-disabled-100: #eeeeee;
+  --color-disabled-200: #dddddd;
+  --color-disabled-300: #bbbbbb;
+  --color-disabled-400: #aaaaaa;
+  --color-disabled-500: #999999;
+  --color-disabled-600: #888888;
+  --color-disabled-700: #666666;
+  --color-disabled-800: #555555;
+  --color-disabled-900: #333333;
+  --color-disabled-950: #222222;
+}
+
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
+
+h1 {
+  font-size: 2.5rem;
+
+  @include media-tablet {
+    font-size: 2rem;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+
+  @include media-tablet {
+    font-size: 1.5rem;
+  }
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+
+  outline-offset: 0.25rem;
+  outline-color: var(--color-primary-500);
+}
