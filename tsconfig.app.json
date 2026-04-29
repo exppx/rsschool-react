@@ -24,7 +24,7 @@
     /* Aliases */
     "paths": {
       "@/*": ["./src/*"],
-      "@pokemons/*": ["./src/features/pokemons/*"],
+      "@news/*": ["./src/features/news/*"],
       "@ui/*": ["./src/features/ui/*"]
     }
   },

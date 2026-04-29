@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@pokemons': path.resolve(__dirname, './src/features/pokemons'),
+      '@news': path.resolve(__dirname, './src/features/news'),
       '@ui': path.resolve(__dirname, './src/features/ui'),
     },
   },

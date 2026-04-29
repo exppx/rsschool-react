@@ -5,7 +5,7 @@ import { Button } from '@ui/Button';
 import { Input } from '@ui/Input';
 
 import searchIcon from '@/assets/search.svg';
-import styles from './SearchPokemonForm.module.scss';
+import styles from './SearchNewsForm.module.scss';
 
 class SearchPokemonForm extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class SearchPokemonForm extends React.Component {
       <form className={styles.form}>
         <Input
           name="search"
-          placeholder={TEXT.features.pokemons.searchPlaceholder}
+          placeholder={TEXT.features.news.searchPlaceholder}
           maxLength={MAX_INPUT_LENGTH}
         />
         <Button type="submit">

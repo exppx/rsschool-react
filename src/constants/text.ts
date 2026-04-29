@@ -1,7 +1,7 @@
 export const TEXT = {
   ui: {
     header: {
-      title: 'Search for Pokemons!',
+      title: 'Search for News!',
     },
     footer: {
       createdBy: 'Created by',
@@ -10,8 +10,8 @@ export const TEXT = {
     },
   },
   features: {
-    pokemons: {
-      searchPlaceholder: 'Search for pokemons...',
+    news: {
+      searchPlaceholder: 'Search for news...',
     },
   },
 };

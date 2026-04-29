@@ -1,12 +1,12 @@
 import React from 'react';
 import { AppLayout } from '@ui/AppLayout';
-import { PokemonsPage } from './pages/PokemonsPage';
+import { NewsPage } from './pages/NewsPage';
 
 class App extends React.Component {
   render() {
     return (
       <AppLayout>
-        <PokemonsPage />
+        <NewsPage />
       </AppLayout>
     );
   }
