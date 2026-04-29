@@ -1,0 +1,27 @@
+import React from 'react';
+import { MAX_INPUT_LENGTH } from '@/constants/numbers';
+import { TEXT } from '@/constants/text';
+import { Button } from '@ui/Button';
+import { Input } from '@ui/Input';
+
+import searchIcon from '@/assets/search.svg';
+import styles from './SearchPokemonForm.module.scss';
+
+class SearchPokemonForm extends React.Component {
+  render() {
+    return (
+      <form className={styles.form}>
+        <Input
+          name="search"
+          placeholder={TEXT.features.pokemons.searchPlaceholder}
+          maxLength={MAX_INPUT_LENGTH}
+        />
+        <Button type="submit">
+          <img className={styles.buttonIcon} src={searchIcon} />
+        </Button>
+      </form>
+    );
+  }
+}
+
+export default SearchPokemonForm;
