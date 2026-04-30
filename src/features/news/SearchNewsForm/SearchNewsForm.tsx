@@ -12,6 +12,8 @@ import styles from './SearchNewsForm.module.scss';
 
 type SearchPokemonFormProps = {
   onNewsReceived: (news: NewsApiResponse) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  isLoading: Readonly<boolean>;
 };
 
 type SearchPokemonFormState = {
@@ -44,11 +46,15 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
 
   async getNews(request: string) {
     try {
+      this.props.setIsLoading(true);
+
       const news = await fetchNews(request);
 
       this.props.onNewsReceived(news);
     } catch (error) {
       console.log(error);
+    } finally {
+      this.props.setIsLoading(false);
     }
   }
 
@@ -65,11 +71,12 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
           name="search"
           placeholder={TEXT.features.news.searchPlaceholder}
           maxLength={MAX_INPUT_LENGTH}
+          disabled={this.props.isLoading}
           value={this.state.searchRequest}
           onChange={(e) => this.setState({ searchRequest: e.target.value })}
         />
 
-        <Button type="submit">
+        <Button type="submit" disabled={this.props.isLoading}>
           <img className={styles.buttonIcon} src={searchIcon} />
         </Button>
       </form>

@@ -1,16 +1,22 @@
 import React from 'react';
 import type { NewsApiResponse } from '@news/types/news';
+import { NewsItem } from './NewsItem';
+import { NewsListSkeleton } from './NewsListSkeleton';
 
 import styles from './NewsList.module.scss';
-import { NewsItem } from './NewsItem';
 
 type NewsListProps = {
   news: NewsApiResponse | null;
+  isLoading: Readonly<boolean>;
 };
 
 class NewsList extends React.Component<NewsListProps> {
   render() {
     const { news } = this.props;
+
+    if (this.props.isLoading) {
+      return <NewsListSkeleton />;
+    }
 
     if (news?.status === 'error') {
       return <p>Error</p>;
