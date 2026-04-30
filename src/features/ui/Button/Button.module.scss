@@ -1,0 +1,90 @@
+@use '../../../styles/mixins' as *;
+
+.button {
+  line-height: 1;
+  border: 1px solid;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: var(--color-disabled-500);
+    border-color: var(--color-disabled-700);
+    color: var(--color-disabled-900);
+    cursor: not-allowed;
+    user-select: none;
+  }
+
+  @include active {
+    transform: scaleY(0.97) translateY(3%);
+  }
+
+  &Primary {
+    background-color: var(--color-primary-500);
+    border-color: var(--color-primary-700);
+    color: var(--color-light-300);
+
+    @include hover {
+      background-color: var(--color-primary-400);
+      border-color: var(--color-primary-600);
+      color: var(--color-light-200);
+    }
+
+    @include active {
+      background-color: var(--color-primary-600);
+      border-color: var(--color-primary-800);
+      color: var(--color-light-400);
+    }
+  }
+
+  &Secondary {
+    background-color: var(--color-secondary-500);
+    border-color: var(--color-secondary-700);
+    color: var(--color-light-300);
+
+    @include hover {
+      background-color: var(--color-secondary-400);
+      border-color: var(--color-secondary-600);
+      color: var(--color-light-200);
+    }
+
+    @include active {
+      background-color: var(--color-secondary-600);
+      border-color: var(--color-secondary-800);
+      color: var(--color-light-400);
+    }
+  }
+
+  &Error {
+    background-color: var(--color-danger-500);
+    border-color: var(--color-danger-700);
+    color: var(--color-light-300);
+
+    @include hover {
+      background-color: var(--color-danger-400);
+      border-color: var(--color-danger-600);
+      color: var(--color-light-200);
+    }
+
+    @include active {
+      background-color: var(--color-danger-600);
+      border-color: var(--color-danger-800);
+      color: var(--color-light-400);
+    }
+  }
+
+  &Small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  &Medium {
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+  }
+
+  &Large {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+  }
+}

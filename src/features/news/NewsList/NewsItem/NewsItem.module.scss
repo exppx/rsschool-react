@@ -1,0 +1,16 @@
+@use '@/styles/_mixins' as *;
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.description {
+  font-size: 1.25rem;
+  line-height: 1.25;
+
+  @include media-tablet {
+    font-size: 1rem;
+  }
+}

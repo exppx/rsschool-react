@@ -1,0 +1,16 @@
+.footer {
+  background-color: var(--color-primary-900);
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.credits {
+  color: var(--color-light-500);
+}

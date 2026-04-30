@@ -1,0 +1,27 @@
+.input {
+  border: 1px solid var(--color-primary-500);
+  border-radius: 0.25rem;
+
+  &:disabled {
+    background-color: var(--color-disabled-300);
+    border-color: var(--color-disabled-700);
+    color: var(--color-disabled-900);
+    cursor: not-allowed;
+    user-select: none;
+  }
+
+  &Small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  &Medium {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+  }
+
+  &Large {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+  }
+}
