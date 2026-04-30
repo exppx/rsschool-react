@@ -49,6 +49,12 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
     }
   }
 
+  componentDidMount(): void {
+    const clearSearchRequest = this.state.searchRequest.trim();
+
+    this.getNews(clearSearchRequest);
+  }
+
   render() {
     return (
       <form className={styles.form} onSubmit={this.onSubmit}>
