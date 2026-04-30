@@ -3,18 +3,10 @@ export type News = {
   description: string;
 };
 
-export type NewsApiResponse = NewsApiSuccessfulResponse | NewsApiErrorResponse;
-
-export type NewsApiSuccessfulResponse = {
+export type NewsApiResponse = {
   status: 'ok';
   totalResults: number;
   articles: Article[];
-};
-
-export type NewsApiErrorResponse = {
-  status: 'error';
-  code: string;
-  message: string;
 };
 
 export type Article = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Article } from '@news/types/news';
+import type { Article } from '@news/types';
 
 import styles from './NewsItem.module.scss';
 

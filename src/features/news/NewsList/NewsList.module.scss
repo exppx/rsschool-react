@@ -31,3 +31,14 @@
     border-radius: 0.25rem;
   }
 }
+
+.errorContainer,
+.placeholderContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.placeholder {
+  text-align: center;
+  font-size: 1.5rem;
+}

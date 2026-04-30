@@ -1,6 +1,6 @@
 import React from 'react';
 import { NEWS_SKELETONS_COUNT } from '@/constants/numbers';
-import { Skeleton } from '@/features/ui/Skeleton';
+import { Skeleton } from '@ui/Skeleton';
 
 import styles from './NewsListSkeleton.module.scss';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NewsApiResponse } from '@news/types/news';
+import type { NewsApiResponse } from '@news/types';
 import { fetchNews } from '@news/api';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
 import { MAX_INPUT_LENGTH } from '@/constants/numbers';
@@ -14,6 +14,7 @@ type SearchPokemonFormProps = {
   onNewsReceived: (news: NewsApiResponse) => void;
   setIsLoading: (isLoading: boolean) => void;
   isLoading: Readonly<boolean>;
+  setError: (error: string | null) => void;
 };
 
 type SearchPokemonFormState = {
@@ -46,13 +47,16 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
 
   async getNews(request: string) {
     try {
+      this.props.setError(null);
       this.props.setIsLoading(true);
 
       const news = await fetchNews(request);
 
       this.props.onNewsReceived(news);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        this.props.setError(error.message);
+      }
     } finally {
       this.props.setIsLoading(false);
     }
