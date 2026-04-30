@@ -33,6 +33,9 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
     event.preventDefault();
 
     const clearSearchRequest = this.state.searchRequest.trim();
+    const previousRequest = localStorage.getItem(REQUEST_KEY) ?? '';
+
+    if (clearSearchRequest === previousRequest) return;
 
     localStorage.setItem(REQUEST_KEY, clearSearchRequest);
 
