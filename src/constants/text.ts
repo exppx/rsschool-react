@@ -2,6 +2,7 @@ export const TEXT = {
   ui: {
     header: {
       title: 'Search for News!',
+      errorButton: "Don't touch",
     },
     footer: {
       createdBy: 'Created by',
@@ -10,6 +11,10 @@ export const TEXT = {
     },
     errorMessage: {
       heading: 'Error',
+    },
+    fallback: {
+      heading: 'Oops!',
+      message: 'Something went wrong 😔',
     },
   },
   features: {

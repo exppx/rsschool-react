@@ -27,13 +27,13 @@
     @include hover {
       background-color: var(--color-primary-400);
       border-color: var(--color-primary-600);
-      color: var(--color-light-300);
+      color: var(--color-light-200);
     }
 
     @include active {
       background-color: var(--color-primary-600);
       border-color: var(--color-primary-800);
-      color: var(--color-light-300);
+      color: var(--color-light-400);
     }
   }
 
@@ -45,13 +45,13 @@
     @include hover {
       background-color: var(--color-secondary-400);
       border-color: var(--color-secondary-600);
-      color: var(--color-light-300);
+      color: var(--color-light-200);
     }
 
     @include active {
       background-color: var(--color-secondary-600);
       border-color: var(--color-secondary-800);
-      color: var(--color-light-300);
+      color: var(--color-light-400);
     }
   }
 
@@ -63,13 +63,13 @@
     @include hover {
       background-color: var(--color-danger-400);
       border-color: var(--color-danger-600);
-      color: var(--color-light-300);
+      color: var(--color-light-200);
     }
 
     @include active {
       background-color: var(--color-danger-600);
       border-color: var(--color-danger-800);
-      color: var(--color-light-300);
+      color: var(--color-light-400);
     }
   }
 
