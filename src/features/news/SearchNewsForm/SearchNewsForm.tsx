@@ -1,4 +1,6 @@
 import React from 'react';
+import type { NewsApiResponse } from '@news/types/news';
+import { fetchNews } from '@news/api';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
 import { MAX_INPUT_LENGTH } from '@/constants/numbers';
 import { TEXT } from '@/constants/text';
@@ -8,7 +10,9 @@ import { Input } from '@ui/Input';
 import searchIcon from '@/assets/search.svg';
 import styles from './SearchNewsForm.module.scss';
 
-type SearchPokemonFormProps = Record<string, never>;
+type SearchPokemonFormProps = {
+  onNewsReceived: (news: NewsApiResponse) => void;
+};
 
 type SearchPokemonFormState = {
   searchRequest: string;
@@ -31,6 +35,18 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
     const clearSearchRequest = this.state.searchRequest.trim();
 
     localStorage.setItem(REQUEST_KEY, clearSearchRequest);
+
+    this.getNews(clearSearchRequest);
+  }
+
+  async getNews(request: string) {
+    try {
+      const news = await fetchNews(request);
+
+      this.props.onNewsReceived(news);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
