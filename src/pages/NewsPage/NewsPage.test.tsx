@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { mockNews } from '@/__tests__/mocks';
 import type { SearchNewsForm } from '@/features/news';
 import NewsPage from './NewsPage';
@@ -35,5 +35,9 @@ vi.mock('../../features/news/NewsList', () => {
 describe('NewsPage', () => {
   it('should render without breaking', async () => {
     render(<NewsPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Search news form')).toBeInTheDocument();
+    });
   });
 });
