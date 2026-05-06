@@ -10,25 +10,25 @@ import { Input } from '@ui/Input';
 import searchIcon from '@/assets/search.svg';
 import styles from './SearchNewsForm.module.scss';
 
-type SearchPokemonFormProps = {
+type SearchNewsFormProps = {
   onNewsReceived: (news: NewsApiResponse) => void;
   setIsLoading: (isLoading: boolean) => void;
   isLoading: Readonly<boolean>;
   setError: (error: string | null) => void;
 };
 
-type SearchPokemonFormState = {
+type SearchNewsFormState = {
   searchRequest: string;
 };
 
-class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
-  constructor(props: SearchPokemonFormProps) {
+class SearchNewsForm extends React.Component<SearchNewsFormProps> {
+  constructor(props: SearchNewsFormProps) {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  state: SearchPokemonFormState = {
+  state: SearchNewsFormState = {
     searchRequest: localStorage.getItem(REQUEST_KEY) ?? '',
   };
 
@@ -88,4 +88,4 @@ class SearchPokemonForm extends React.Component<SearchPokemonFormProps> {
   }
 }
 
-export default SearchPokemonForm;
+export default SearchNewsForm;
