@@ -1,34 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import NewsItem from './NewsItem';
-import type { Article } from '../../types';
-
-const mockArticle: Article = {
-  source: {
-    id: '1',
-    name: 'Name',
-  },
-  author: 'Author',
-  title: 'Title',
-  description: 'Description',
-  url: 'url',
-  urlToImage: 'url to image',
-  publishedAt: '2000-01-01T00:00:00Z',
-  content: 'Content',
-};
-
-const mockEmptyArticle: Article = {
-  source: {
-    id: null,
-    name: null,
-  },
-  author: null,
-  title: null,
-  description: null,
-  url: null,
-  urlToImage: null,
-  publishedAt: '2000-01-01T00:00:00Z',
-  content: null,
-};
+import { mockArticle, mockEmptyArticle } from '@/__tests__/mocks';
 
 describe('NewsItem', () => {
   it('should render without breaking', () => {

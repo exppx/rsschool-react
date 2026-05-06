@@ -1,36 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import SearchNewsForm from './SearchNewsForm';
 import * as api from '../api';
-import type { NewsApiResponse } from '../types';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
 import userEvent from '@testing-library/user-event';
-
-const mockApiResponse: NewsApiResponse = {
-  status: 'ok',
-  totalResults: 2,
-  articles: [
-    {
-      source: { id: '1', name: 'Source 1' },
-      author: 'Author 1',
-      title: 'Title 1',
-      description: 'Description 1',
-      url: 'url 1',
-      urlToImage: 'urlToImage 1',
-      publishedAt: '2026-04-13T21:25:17Z',
-      content: 'Content 1',
-    },
-    {
-      source: { id: '2', name: 'Source 2' },
-      author: 'Author 2',
-      title: 'Title 2',
-      description: 'Description 2',
-      url: 'url 2',
-      urlToImage: 'urlToImage 2',
-      publishedAt: '2026-04-13T21:25:17Z',
-      content: 'Content 2',
-    },
-  ],
-};
+import { mockNews } from '@/__tests__/mocks';
 
 describe('SearchNewsForm', () => {
   beforeEach(() => {
@@ -47,7 +20,7 @@ describe('SearchNewsForm', () => {
     if (options?.reject) {
       apiSpy.mockRejectedValue(new Error(errorText));
     } else {
-      apiSpy.mockResolvedValue(mockApiResponse);
+      apiSpy.mockResolvedValue(mockNews);
     }
 
     const setErrorSpy = vi.fn();

@@ -1,40 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import type { NewsApiResponse } from '../types';
 import NewsList from './NewsList';
 import { TEXT } from '@/constants/text';
-
-const mockNews: NewsApiResponse = {
-  status: 'ok',
-  totalResults: 2,
-  articles: [
-    {
-      source: { id: '1', name: 'Source 1' },
-      author: 'Author 1',
-      title: 'Title 1',
-      description: 'Description 1',
-      url: 'url 1',
-      urlToImage: 'urlToImage 1',
-      publishedAt: '2026-04-13T21:25:17Z',
-      content: 'Content 1',
-    },
-    {
-      source: { id: '2', name: 'Source 2' },
-      author: 'Author 2',
-      title: 'Title 2',
-      description: 'Description 2',
-      url: 'url 2',
-      urlToImage: 'urlToImage 2',
-      publishedAt: '2026-04-13T21:25:17Z',
-      content: 'Content 2',
-    },
-  ],
-};
-
-const mockEmptyNews: NewsApiResponse = {
-  status: 'ok',
-  totalResults: 0,
-  articles: [],
-};
+import { mockEmptyNews, mockNews } from '@/__tests__/mocks';
 
 describe('NewsList', () => {
   it('should render without breaking', () => {

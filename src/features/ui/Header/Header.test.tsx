@@ -1,35 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import Header from './Header';
 import { TEXT } from '@/constants/text';
-
-type TestErrorBoundaryProps = {
-  children: React.ReactNode;
-  message: string;
-};
-
-class TestErrorBoundary extends React.Component<
-  TestErrorBoundaryProps,
-  { hasError: boolean }
-> {
-  constructor(props: TestErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <div>error happened</div>;
-    }
-
-    return this.props.children;
-  }
-}
+import { TestErrorBoundary } from '@/__tests__/components';
 
 describe('Header', () => {
   it('should render without breaking', () => {

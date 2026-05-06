@@ -1,17 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ErrorBoundary from './ErrorBoundary';
-import React from 'react';
-
-class ThrowingComponent extends React.Component<{
-  shouldThrow: boolean;
-  children: React.ReactNode;
-}> {
-  render() {
-    if (this.props.shouldThrow) throw new Error();
-
-    return this.props.children;
-  }
-}
+import { TestThrowingComponent } from '@/__tests__/components';
 
 describe('ErrorBoundary', () => {
   function setup(shouldThrow: boolean) {
@@ -20,9 +9,9 @@ describe('ErrorBoundary', () => {
 
     render(
       <ErrorBoundary fallback={<div>{fallbackText}</div>}>
-        <ThrowingComponent shouldThrow={shouldThrow}>
+        <TestThrowingComponent shouldThrow={shouldThrow}>
           <div>{childrenText}</div>
-        </ThrowingComponent>
+        </TestThrowingComponent>
       </ErrorBoundary>
     );
 
