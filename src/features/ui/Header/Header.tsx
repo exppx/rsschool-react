@@ -1,6 +1,7 @@
 import React from 'react';
 import { TEXT } from '@/constants/text';
 import { Button } from '@ui/Button';
+import { BuggyComponent } from '@ui/BuggyComponent';
 
 import styles from './Header.module.scss';
 
@@ -26,17 +27,9 @@ class Header extends React.Component {
           {TEXT.ui.header.errorButton}
         </Button>
 
-        {this.state.isError && <BuggyComponent />}
+        {this.state.isError && <BuggyComponent shouldThrow />}
       </header>
     );
-  }
-}
-
-class BuggyComponent extends React.Component {
-  render() {
-    throw new Error('I said you not to touch it 🙄');
-
-    return <div></div>;
   }
 }
 
