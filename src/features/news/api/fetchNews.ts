@@ -1,11 +1,9 @@
-import type { NewsApiResponse } from '@news/types';
+import type { Article, NewsApiResponse } from '@news/types';
 
 const NEWS_API_KEY = '1a1feefeb03f471893eb9f607d412570';
 const BASE_API_URL = 'https://newsapi.org/v2';
 
-export default async function fetchNews(
-  query: string
-): Promise<NewsApiResponse> {
+export default async function fetchNews(query: string): Promise<Article[]> {
   let url = `${BASE_API_URL}/top-headlines?country=us&pageSize=10&page=1`;
 
   if (query !== '') {
@@ -27,5 +25,5 @@ export default async function fetchNews(
 
   const data: NewsApiResponse = await response.json();
 
-  return data;
+  return data.articles;
 }

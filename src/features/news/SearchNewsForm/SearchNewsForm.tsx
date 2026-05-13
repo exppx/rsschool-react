@@ -1,7 +1,4 @@
-import React from 'react';
-import type { NewsApiResponse } from '@news/types';
-import { fetchNews } from '@news/api';
-import { REQUEST_KEY } from '@/constants/localStorageKeys';
+import React, { useState } from 'react';
 import { MAX_INPUT_LENGTH } from '@/constants/numbers';
 import { TEXT } from '@/constants/text';
 import { Button } from '@ui/Button';
@@ -11,81 +8,40 @@ import searchIcon from '@/assets/search.svg';
 import styles from './SearchNewsForm.module.scss';
 
 type SearchNewsFormProps = {
-  onNewsReceived: (news: NewsApiResponse) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  isLoading: Readonly<boolean>;
-  setError: (error: string | null) => void;
+  onSubmit: (search: string) => void;
+  isLoading: boolean;
+  savedSearch: string;
 };
 
-type SearchNewsFormState = {
-  searchRequest: string;
-};
+function SearchNewsForm({
+  onSubmit,
+  isLoading,
+  savedSearch,
+}: SearchNewsFormProps) {
+  const [request, setRequest] = useState(savedSearch);
 
-class SearchNewsForm extends React.Component<SearchNewsFormProps> {
-  constructor(props: SearchNewsFormProps) {
-    super(props);
-
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  state: SearchNewsFormState = {
-    searchRequest: localStorage.getItem(REQUEST_KEY) ?? '',
-  };
-
-  onSubmit(event: React.SubmitEvent) {
+  function handleSubmit(event: React.SubmitEvent) {
     event.preventDefault();
 
-    const clearSearchRequest = this.state.searchRequest.trim();
-    const previousRequest = localStorage.getItem(REQUEST_KEY) ?? '';
-
-    if (clearSearchRequest === previousRequest) return;
-
-    localStorage.setItem(REQUEST_KEY, clearSearchRequest);
-
-    this.getNews(clearSearchRequest);
+    onSubmit(request);
   }
 
-  async getNews(request: string) {
-    try {
-      this.props.setError(null);
-      this.props.setIsLoading(true);
+  return (
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <Input
+        name="search"
+        placeholder={TEXT.features.news.searchPlaceholder}
+        maxLength={MAX_INPUT_LENGTH}
+        disabled={isLoading}
+        value={request}
+        onChange={(e) => setRequest(e.target.value)}
+      />
 
-      const news = await fetchNews(request);
-
-      this.props.onNewsReceived(news);
-    } catch (error) {
-      if (error instanceof Error) {
-        this.props.setError(error.message);
-      }
-    } finally {
-      this.props.setIsLoading(false);
-    }
-  }
-
-  componentDidMount(): void {
-    const clearSearchRequest = this.state.searchRequest.trim();
-
-    this.getNews(clearSearchRequest);
-  }
-
-  render() {
-    return (
-      <form className={styles.form} onSubmit={this.onSubmit}>
-        <Input
-          name="search"
-          placeholder={TEXT.features.news.searchPlaceholder}
-          maxLength={MAX_INPUT_LENGTH}
-          disabled={this.props.isLoading}
-          value={this.state.searchRequest}
-          onChange={(e) => this.setState({ searchRequest: e.target.value })}
-        />
-
-        <Button type="submit" disabled={this.props.isLoading}>
-          <img className={styles.buttonIcon} src={searchIcon} />
-        </Button>
-      </form>
-    );
-  }
+      <Button type="submit" disabled={isLoading}>
+        <img className={styles.buttonIcon} src={searchIcon} />
+      </Button>
+    </form>
+  );
 }
 
 export default SearchNewsForm;

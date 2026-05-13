@@ -8,16 +8,14 @@ type AppLayoutProps = {
   children?: React.ReactNode;
 };
 
-class AppLayout extends React.Component<AppLayoutProps> {
-  render() {
-    return (
-      <div className={styles.layout}>
-        <Header />
-        <main className={styles.main}>{this.props.children}</main>
-        <Footer />
-      </div>
-    );
-  }
+function AppLayout({ children }: AppLayoutProps) {
+  return (
+    <div className={styles.layout}>
+      <Header />
+      <main className={styles.main}>{children}</main>
+      <Footer />
+    </div>
+  );
 }
 
 export default AppLayout;

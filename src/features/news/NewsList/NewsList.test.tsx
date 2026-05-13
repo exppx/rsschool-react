@@ -21,16 +21,13 @@ describe('NewsList', () => {
     render(<NewsList news={mockNews} isLoading={false} error={'Test error'} />);
 
     expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
+    expect(
+      screen.getByText(TEXT.features.news.newsList.fetchError)
+    ).toBeInTheDocument();
   });
 
   it('should render skeleton on loading', () => {
     render(<NewsList news={mockNews} isLoading={true} error={null} />);
-
-    expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
-  });
-
-  it('should render nothing if no news provided', () => {
-    render(<NewsList news={null} isLoading={false} error={null} />);
 
     expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
   });

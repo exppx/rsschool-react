@@ -23,6 +23,9 @@ export const TEXT = {
       newsList: {
         fetchError: 'Could not receive data. Please try again later.',
         placeholder: 'No results found',
+        newsItem: {
+          viewSource: 'View source',
+        },
       },
     },
   },

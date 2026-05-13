@@ -1,12 +1,7 @@
-import React from 'react';
+function BuggyComponent({ shouldThrow }: { shouldThrow: boolean }) {
+  if (shouldThrow) throw new Error('I said you not to touch it 🙄');
 
-class BuggyComponent extends React.Component<{ shouldThrow: boolean }> {
-  render() {
-    if (this.props.shouldThrow)
-      throw new Error('I said you not to touch it 🙄');
-
-    return <div></div>;
-  }
+  return <div></div>;
 }
 
 export default BuggyComponent;
