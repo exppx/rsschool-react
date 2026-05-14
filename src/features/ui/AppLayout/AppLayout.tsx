@@ -1,18 +1,18 @@
-import React from 'react';
 import { Header } from '@ui/Header';
 import { Footer } from '@ui/Footer';
 
 import styles from './AppLayout.module.scss';
+import { Outlet } from 'react-router';
 
-type AppLayoutProps = {
-  children?: React.ReactNode;
-};
-
-function AppLayout({ children }: AppLayoutProps) {
+function AppLayout() {
   return (
     <div className={styles.layout}>
       <Header />
-      <main className={styles.main}>{children}</main>
+
+      <main className={styles.main}>
+        <Outlet />
+      </main>
+
       <Footer />
     </div>
   );

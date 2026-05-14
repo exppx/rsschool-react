@@ -1,12 +1,13 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NewsPage from './NewsPage';
-import { fetchNews } from '@/features/news';
+import { fetchNews } from '@news/api';
 import { mockNews } from '@/__tests__/mocks';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
 import type { Mock } from 'vitest';
+import { MemoryRouter } from 'react-router';
 
-vi.mock('@/features/news', () => ({
+vi.mock('@news/api', () => ({
   fetchNews: vi.fn(),
 }));
 
@@ -35,10 +36,14 @@ describe('NewsPage', () => {
       localStorage.setItem(REQUEST_KEY, JSON.stringify(options.savedTerm));
     }
 
-    render(<NewsPage />);
+    render(
+      <MemoryRouter initialEntries={['/?page=1']}>
+        <NewsPage />
+      </MemoryRouter>
+    );
 
     const input = await screen.findByRole('textbox');
-    const button = await screen.findByRole('button');
+    const button = await screen.findByRole('button', { name: '' });
     const user = userEvent.setup();
 
     return {
@@ -53,10 +58,8 @@ describe('NewsPage', () => {
   it('should render without breaking', async () => {
     await customRender();
 
-    await waitFor(() => {
-      expect(screen.getByRole('textbox')).toBeInTheDocument();
-      expect(screen.getByText(/title 1/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByRole('textbox')).toBeInTheDocument();
+    expect(await screen.findByText(/title 1/i)).toBeInTheDocument();
   });
 
   it('should display term from local storage if it exists', async () => {
@@ -76,7 +79,7 @@ describe('NewsPage', () => {
     const savedText = 'savedText';
     const { apiSpy } = await customRender({ savedTerm: savedText });
 
-    expect(apiSpy).toHaveBeenCalledExactlyOnceWith(savedText);
+    expect(apiSpy).toHaveBeenCalledExactlyOnceWith(savedText, { page: '1' });
   });
 
   it('should not throw on api error', async () => {
@@ -107,7 +110,7 @@ describe('NewsPage', () => {
     await user.type(input, '  ' + testText + ' ');
     await user.click(button);
 
-    expect(apiSpy).toHaveBeenCalledWith(testText);
+    expect(apiSpy).toHaveBeenCalledWith(testText, { page: '1' });
   });
 
   it('should trigger fetch only once if search did not change', async () => {

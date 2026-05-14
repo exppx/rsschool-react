@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 
 export class TestThrowingComponent extends React.Component<{
   shouldThrow: boolean;
@@ -36,4 +37,9 @@ export class TestErrorBoundary extends React.Component<
 
     return this.props.children;
   }
+}
+
+export function LocationDisplay() {
+  const location = useLocation();
+  return <div data-testid="location">{location.search}</div>;
 }

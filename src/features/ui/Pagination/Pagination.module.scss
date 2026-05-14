@@ -1,0 +1,16 @@
+.pagination {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ellipsis {
+  width: 1.5rem;
+  text-align: center;
+}

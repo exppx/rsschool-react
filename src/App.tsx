@@ -1,14 +1,22 @@
+import { BrowserRouter, Route, Routes } from 'react-router';
 import { AppLayout } from '@ui/AppLayout';
-import { NewsPage } from './pages/NewsPage';
 import { ErrorBoundary } from '@ui/ErrorBoundary';
 import { Fallback } from '@ui/Fallback';
+import { NewsPage } from './pages/NewsPage';
+import { NewsDetails } from '@news/NewsDetails';
 
 function App() {
   return (
     <ErrorBoundary fallback={<Fallback />}>
-      <AppLayout>
-        <NewsPage />
-      </AppLayout>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<NewsPage />}>
+              <Route path="details" element={<NewsDetails />} />
+            </Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ErrorBoundary>
   );
 }

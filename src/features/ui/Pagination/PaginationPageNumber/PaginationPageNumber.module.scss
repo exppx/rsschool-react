@@ -1,0 +1,25 @@
+@use '@/styles/_mixins' as *;
+
+.paginationNumber {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+
+  &Inactive {
+    cursor: pointer;
+
+    @include hover {
+      background-color: var(--color-secondary-200);
+    }
+  }
+
+  &Active {
+    background-color: var(--color-secondary-400);
+    cursor: default;
+  }
+}
