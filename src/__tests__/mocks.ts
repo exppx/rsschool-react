@@ -1,4 +1,4 @@
-import type { Article, NewsApiResponse } from '@/features/news';
+import type { Article, NewsApiResponse } from '@news/types';
 
 export const mockArticle: Article = {
   source: {
@@ -20,7 +20,7 @@ export const mockEmptyArticle: Article = {
     name: null,
   },
   author: null,
-  title: null,
+  title: 'Title 1',
   description: null,
   url: null,
   urlToImage: null,

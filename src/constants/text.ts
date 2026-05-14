@@ -27,6 +27,14 @@ export const TEXT = {
           viewSource: 'View source',
         },
       },
+      newsDetails: {
+        imageAlt: 'Article image',
+        author: 'Author: ',
+        source: 'Source',
+        noDetails: 'No details provided',
+        notFound: 'Could not find article',
+        fetchError: 'Could not load data. Please try again later.',
+      },
     },
   },
 };

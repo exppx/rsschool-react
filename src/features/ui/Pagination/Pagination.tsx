@@ -1,6 +1,6 @@
 import { API_MAX_PAGE_COUNT } from '@/constants/numbers';
-import { Button } from '@/features/ui/Button';
-import { useEffect } from 'react';
+import { Button } from '@ui/Button';
+// import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { PaginationPageNumber } from './PaginationPageNumber';
 
@@ -21,15 +21,6 @@ function Pagination({ totalItems, pageSize, queryKey }: PaginationProps) {
     !!currentPageNumber &&
     !Number.isNaN(currentPageNumber) &&
     currentPageNumber > 0;
-
-  useEffect(() => {
-    if (!currentPage) {
-      setSearchParams((searchParams) => {
-        searchParams.set(queryKey, '1');
-        return searchParams;
-      });
-    }
-  }, [queryKey, setSearchParams, currentPage]);
 
   if (!isPageNumberValid) return;
 

@@ -1,40 +1,35 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter, type InitialEntry } from 'react-router';
+import { MemoryRouter } from 'react-router';
 import { PAGE_KEY } from '@/constants/searchParamsKeys';
 import { API_PAGE_SIZE } from '@/constants/numbers';
 import Pagination from './Pagination';
 import userEvent from '@testing-library/user-event';
-import { LocationDisplay } from '@/__tests__/components';
+import { SearchParamsDisplay } from '@/__tests__/components';
 
 describe('Pagination', () => {
   function customRender({
     pageSize = API_PAGE_SIZE,
     totalItems = 100,
     startPage = 2,
-    noStartPage = false,
   }: {
     pageSize?: number;
     totalItems?: number;
     startPage?: number;
     noStartPage?: boolean;
   } = {}) {
-    const initialEntries: InitialEntry[] = !noStartPage
-      ? [`/?page=${startPage}`]
-      : ['/'];
-
     render(
-      <MemoryRouter initialEntries={initialEntries}>
+      <MemoryRouter initialEntries={[`/?page=${startPage}`]}>
         <Pagination
           totalItems={totalItems}
           pageSize={pageSize}
           queryKey={PAGE_KEY}
         />
-        <LocationDisplay />
+        <SearchParamsDisplay />
       </MemoryRouter>
     );
 
     const buttons = screen.getAllByRole('button');
-    const locationDisplay = screen.getByTestId('location');
+    const locationDisplay = screen.getByTestId('search-params');
     const user = userEvent.setup();
 
     return {
@@ -95,13 +90,6 @@ describe('Pagination', () => {
     expect(locationAfter).toBe('?page=1');
   });
 
-  it('should set page to 1 if no page in search parameters', async () => {
-    const { locationDisplay } = customRender({ noStartPage: true });
-    const locationSearchParams = locationDisplay.textContent;
-
-    expect(locationSearchParams).toBe('?page=1');
-  });
-
   it('should render nothing if page is not number', async () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/?page=test']}>
@@ -119,6 +107,20 @@ describe('Pagination', () => {
   it('should render nothing if page is negative number', async () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/?page=-2']}>
+        <Pagination
+          totalItems={100}
+          pageSize={API_PAGE_SIZE}
+          queryKey={PAGE_KEY}
+        />
+      </MemoryRouter>
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('should render nothing if page is not in search params', async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={['/']}>
         <Pagination
           totalItems={100}
           pageSize={API_PAGE_SIZE}

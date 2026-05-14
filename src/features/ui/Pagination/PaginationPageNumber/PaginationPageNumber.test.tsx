@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 import { PAGE_KEY } from '@/constants/searchParamsKeys';
 import PaginationPageNumber from './PaginationPageNumber';
 import userEvent from '@testing-library/user-event';
-import { LocationDisplay } from '@/__tests__/components';
+import { SearchParamsDisplay } from '@/__tests__/components';
 
 describe('PaginationPageNumber', () => {
   function customRender({
@@ -17,7 +17,7 @@ describe('PaginationPageNumber', () => {
           currentPage={currentPage}
           queryKey={PAGE_KEY}
         />
-        <LocationDisplay />
+        <SearchParamsDisplay />
       </MemoryRouter>
     );
   }
@@ -34,17 +34,17 @@ describe('PaginationPageNumber', () => {
 
     await user.click(screen.getByText('2'));
 
-    expect(screen.getByTestId('location')).toHaveTextContent('?page=2');
+    expect(screen.getByTestId('search-params')).toHaveTextContent('?page=2');
   });
 
   it('should not change page on click if it represents current page', async () => {
     customRender({ page: 3, currentPage: 3 });
     const user = userEvent.setup();
-    const before = screen.getByTestId('location').textContent;
+    const before = screen.getByTestId('search-params').textContent;
 
     await user.click(screen.getByText('3'));
 
-    const after = screen.getByTestId('location').textContent;
+    const after = screen.getByTestId('search-params').textContent;
     expect(after).toBe(before);
   });
 });

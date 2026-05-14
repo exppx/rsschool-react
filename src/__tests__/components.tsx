@@ -39,7 +39,12 @@ export class TestErrorBoundary extends React.Component<
   }
 }
 
-export function LocationDisplay() {
+export function SearchParamsDisplay() {
   const location = useLocation();
-  return <div data-testid="location">{location.search}</div>;
+  return <div data-testid="search-params">{location.search}</div>;
+}
+
+export function PathDisplay() {
+  const location = useLocation();
+  return <div data-testid="path">{location.pathname}</div>;
 }

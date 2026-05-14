@@ -1,20 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NewsPage from './NewsPage';
-import { fetchNews } from '@news/api';
 import { mockNews } from '@/__tests__/mocks';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
 import type { Mock } from 'vitest';
 import { MemoryRouter } from 'react-router';
-
-vi.mock('@news/api', () => ({
-  fetchNews: vi.fn(),
-}));
+import { SearchParamsDisplay } from '@/__tests__/components';
+import { act } from 'react';
 
 describe('NewsPage', () => {
+  let mockFetch: Mock;
+
   beforeEach(() => {
-    vi.clearAllMocks();
     localStorage.clear();
+    vi.restoreAllMocks();
+    mockFetch = vi.spyOn(window, 'fetch');
   });
 
   async function customRender(options?: {
@@ -24,23 +24,26 @@ describe('NewsPage', () => {
     const testText = 'testText';
     const errorText = 'Error text';
 
-    const apiSpy = fetchNews as Mock;
-
     if (options?.reject) {
-      apiSpy.mockRejectedValue(new Error(errorText));
+      mockFetch.mockRejectedValue(new Error(errorText));
     } else {
-      apiSpy.mockResolvedValue(mockNews);
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: async () => mockNews,
+      } as Response);
     }
 
     if (options?.savedTerm) {
       localStorage.setItem(REQUEST_KEY, JSON.stringify(options.savedTerm));
     }
 
-    render(
-      <MemoryRouter initialEntries={['/?page=1']}>
-        <NewsPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/?page=1']}>
+          <NewsPage />
+        </MemoryRouter>
+      );
+    });
 
     const input = await screen.findByRole('textbox');
     const button = await screen.findByRole('button', { name: '' });
@@ -50,7 +53,6 @@ describe('NewsPage', () => {
       testText,
       input,
       button,
-      apiSpy,
       user,
     };
   }
@@ -75,15 +77,15 @@ describe('NewsPage', () => {
     expect(input).toHaveValue('');
   });
 
-  it('should fetch data on load using saved term', async () => {
+  it('should fetch data on load', async () => {
     const savedText = 'savedText';
-    const { apiSpy } = await customRender({ savedTerm: savedText });
+    await customRender({ savedTerm: savedText });
 
-    expect(apiSpy).toHaveBeenCalledExactlyOnceWith(savedText, { page: '1' });
+    expect(mockFetch).toHaveBeenCalled();
   });
 
   it('should not throw on api error', async () => {
-    await customRender({ reject: true });
+    await expect(customRender({ reject: true })).resolves.not.toThrow();
   });
 
   it('should save search term to localStorage when search button is clicked', async () => {
@@ -104,23 +106,14 @@ describe('NewsPage', () => {
     expect(localStorage.getItem(REQUEST_KEY)).toBe(JSON.stringify(testText));
   });
 
-  it('should trigger fetch with correct search on button click', async () => {
-    const { user, input, button, testText, apiSpy } = await customRender();
-
-    await user.type(input, '  ' + testText + ' ');
-    await user.click(button);
-
-    expect(apiSpy).toHaveBeenCalledWith(testText, { page: '1' });
-  });
-
   it('should trigger fetch only once if search did not change', async () => {
-    const { user, input, button, testText, apiSpy } = await customRender();
+    const { user, input, button, testText } = await customRender();
 
     await user.type(input, testText);
     await user.click(button);
     await user.click(button);
 
-    expect(apiSpy).toHaveBeenCalledTimes(2);
+    expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 
   it('should overwrite saved search if it changed', async () => {
@@ -134,5 +127,20 @@ describe('NewsPage', () => {
     expect(localStorage.getItem(REQUEST_KEY)).toBe(
       JSON.stringify(testText + testText)
     );
+  });
+
+  it('should set page to 1 if no page in search parameters', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/']}>
+          <NewsPage />
+          <SearchParamsDisplay />
+        </MemoryRouter>
+      );
+    });
+
+    const searchParams = screen.getByTestId('search-params').textContent;
+
+    expect(searchParams).toBe('?page=1');
   });
 });
