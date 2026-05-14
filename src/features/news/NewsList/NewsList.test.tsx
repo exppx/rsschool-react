@@ -39,4 +39,12 @@ describe('NewsList', () => {
       screen.getByText(TEXT.features.news.newsList.placeholder)
     ).toBeInTheDocument();
   });
+
+  it('should render nothing if no news provided', () => {
+    const { container } = render(
+      <NewsList news={null} isLoading={false} error={null} />
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
 });

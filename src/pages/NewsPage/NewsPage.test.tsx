@@ -32,7 +32,7 @@ describe('NewsPage', () => {
     }
 
     if (options?.savedTerm) {
-      localStorage.setItem(REQUEST_KEY, options.savedTerm);
+      localStorage.setItem(REQUEST_KEY, JSON.stringify(options.savedTerm));
     }
 
     render(<NewsPage />);
@@ -89,7 +89,7 @@ describe('NewsPage', () => {
     await user.type(input, testText);
     await user.click(button);
 
-    expect(localStorage.getItem(REQUEST_KEY)).toBe(testText);
+    expect(localStorage.getItem(REQUEST_KEY)).toBe(JSON.stringify(testText));
   });
 
   it('should trim whitespaces from search input before saving', async () => {
@@ -98,7 +98,7 @@ describe('NewsPage', () => {
     await user.type(input, '  ' + testText + ' ');
     await user.click(button);
 
-    expect(localStorage.getItem(REQUEST_KEY)).toBe(testText);
+    expect(localStorage.getItem(REQUEST_KEY)).toBe(JSON.stringify(testText));
   });
 
   it('should trigger fetch with correct search on button click', async () => {
@@ -128,6 +128,8 @@ describe('NewsPage', () => {
     await user.type(input, testText);
     await user.click(button);
 
-    expect(localStorage.getItem(REQUEST_KEY)).toBe(testText + testText);
+    expect(localStorage.getItem(REQUEST_KEY)).toBe(
+      JSON.stringify(testText + testText)
+    );
   });
 });

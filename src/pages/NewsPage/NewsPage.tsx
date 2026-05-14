@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
-import type { Article } from '@news/types';
+import type { NewsApiResponse } from '@news/types';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
 import { SearchNewsForm } from '@news/SearchNewsForm';
 import { NewsList } from '@news/NewsList';
 import { fetchNews } from '@/features/news';
+import { useLocalStorage } from '@/utils/hooks';
 
 import styles from './NewsPage.module.scss';
 
 function NewsPage() {
-  const [news, setNews] = useState<Article[]>([]);
+  const [news, setNews] = useState<NewsApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [searchRequest, setSearchRequest] = useState(
-    () => localStorage.getItem(REQUEST_KEY) ?? ''
-  );
+  const [searchRequest, setSearchRequest] = useLocalStorage(REQUEST_KEY, '');
 
   useEffect(() => {
     async function getNews(request: string) {
@@ -41,11 +40,9 @@ function NewsPage() {
 
   function handleSearch(request: string) {
     const clearRequest = request.trim();
-    const previousRequest = localStorage.getItem(REQUEST_KEY) ?? '';
 
-    if (clearRequest === previousRequest) return;
+    if (clearRequest === searchRequest) return;
 
-    localStorage.setItem(REQUEST_KEY, clearRequest);
     setSearchRequest(clearRequest);
   }
 

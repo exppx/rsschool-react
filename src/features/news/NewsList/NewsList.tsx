@@ -1,4 +1,4 @@
-import type { Article } from '@news/types';
+import type { NewsApiResponse } from '@news/types';
 import { TEXT } from '@/constants/text';
 import { NewsItem } from './NewsItem';
 import { NewsListSkeleton } from './NewsListSkeleton';
@@ -7,12 +7,16 @@ import { ErrorMessage } from '@ui/ErrorMessage';
 import styles from './NewsList.module.scss';
 
 type NewsListProps = {
-  news: Article[];
-  isLoading: Readonly<boolean>;
-  error: Readonly<string | null>;
+  news: NewsApiResponse | null;
+  isLoading: boolean;
+  error: string | null;
 };
 
 function NewsList({ news, isLoading, error }: NewsListProps) {
+  if (!news) return;
+
+  const { articles } = news;
+
   if (error !== null) {
     return (
       <div className={styles.errorContainer}>
@@ -25,7 +29,7 @@ function NewsList({ news, isLoading, error }: NewsListProps) {
     return <NewsListSkeleton />;
   }
 
-  if (news.length === 0) {
+  if (articles.length === 0) {
     return (
       <div className={styles.placeholderContainer}>
         <p className={styles.placeholder}>
@@ -37,7 +41,7 @@ function NewsList({ news, isLoading, error }: NewsListProps) {
 
   return (
     <ul className={styles.newsList}>
-      {news.map((article) => (
+      {articles.map((article) => (
         <li key={article.title} className={styles.newsItem}>
           <NewsItem article={article} />
         </li>

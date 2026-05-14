@@ -1,4 +1,4 @@
-import type { Article } from '@/features/news';
+import type { Article, NewsApiResponse } from '@/features/news';
 
 export const mockArticle: Article = {
   source: {
@@ -28,27 +28,35 @@ export const mockEmptyArticle: Article = {
   content: null,
 };
 
-export const mockNews: Article[] = [
-  {
-    source: { id: '1', name: 'Source 1' },
-    author: 'Author 1',
-    title: 'Title 1',
-    description: 'Description 1',
-    url: 'url 1',
-    urlToImage: 'urlToImage 1',
-    publishedAt: '2026-04-13T21:25:17Z',
-    content: 'Content 1',
-  },
-  {
-    source: { id: '2', name: 'Source 2' },
-    author: 'Author 2',
-    title: 'Title 2',
-    description: 'Description 2',
-    url: 'url 2',
-    urlToImage: 'urlToImage 2',
-    publishedAt: '2026-04-13T21:25:17Z',
-    content: 'Content 2',
-  },
-];
+export const mockNews: NewsApiResponse = {
+  status: 'ok',
+  totalResults: 2,
+  articles: [
+    {
+      source: { id: '1', name: 'Source 1' },
+      author: 'Author 1',
+      title: 'Title 1',
+      description: 'Description 1',
+      url: 'url 1',
+      urlToImage: 'urlToImage 1',
+      publishedAt: '2026-04-13T21:25:17Z',
+      content: 'Content 1',
+    },
+    {
+      source: { id: '2', name: 'Source 2' },
+      author: 'Author 2',
+      title: 'Title 2',
+      description: 'Description 2',
+      url: 'url 2',
+      urlToImage: 'urlToImage 2',
+      publishedAt: '2026-04-13T21:25:17Z',
+      content: 'Content 2',
+    },
+  ],
+};
 
-export const mockEmptyNews: Article[] = [];
+export const mockEmptyNews: NewsApiResponse = {
+  status: 'ok',
+  totalResults: 0,
+  articles: [],
+};
