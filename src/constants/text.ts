@@ -47,5 +47,11 @@ export const TEXT = {
       authorName: 'exppx',
       rsSchoolReact: 'RS School React course',
     },
+    notFound: {
+      forOhFor: '404',
+      notFound: 'Page not found',
+      description: 'Return to main page',
+      link: '← Back',
+    },
   },
 };

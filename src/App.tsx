@@ -5,6 +5,7 @@ import { Fallback } from '@ui/Fallback';
 import { NewsPage } from './pages/NewsPage';
 import { NewsDetails } from '@news/NewsDetails';
 import { AboutPage } from './pages/AboutPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path="details" element={<NewsDetails />} />
             </Route>
             <Route path="about" element={<AboutPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

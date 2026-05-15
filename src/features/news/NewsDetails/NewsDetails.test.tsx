@@ -78,6 +78,22 @@ describe('NewsDetails', () => {
     expect(pathName.textContent).toBe('/');
   });
 
+  it('should inform if article not found', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        status: 'ok',
+        articles: [],
+        totalResults: 0,
+      }),
+    } as Response);
+    await customRender();
+
+    const message = screen.getByText(TEXT.features.news.newsDetails.notFound);
+
+    expect(message).toBeInTheDocument();
+  });
+
   it('should show error message on api error', async () => {
     mockFetch.mockRejectedValue(new Error('Error'));
     await customRender();
