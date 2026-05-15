@@ -1,0 +1,36 @@
+.notFoundPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  height: 100%;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading {
+  font-size: 7rem;
+  color: var(--color-secondary-800);
+}
+
+.notFound {
+  font-size: 2rem;
+  color: var(--color-secondary-500);
+}
+
+.description {
+  color: var(--color-secondary-900);
+}
+
+.link {
+  color: var(--color-success-700);
+}
+
+.description,
+.link {
+  font-size: 1.5rem;
+}

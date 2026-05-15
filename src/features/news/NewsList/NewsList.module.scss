@@ -4,7 +4,6 @@
 }
 
 .newsItem {
-  padding: 1rem;
   list-style: none;
 
   &:not(:last-child) {
@@ -41,4 +40,11 @@
 .placeholder {
   text-align: center;
   font-size: 1.5rem;
+}
+
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }

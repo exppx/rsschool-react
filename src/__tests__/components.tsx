@@ -1,14 +1,16 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 
-export class TestThrowingComponent extends React.Component<{
+export function TestThrowingComponent({
+  shouldThrow,
+  children,
+}: {
   shouldThrow: boolean;
   children: React.ReactNode;
-}> {
-  render() {
-    if (this.props.shouldThrow) throw new Error();
+}) {
+  if (shouldThrow) throw new Error();
 
-    return this.props.children;
-  }
+  return children;
 }
 
 type TestErrorBoundaryProps = {
@@ -36,4 +38,14 @@ export class TestErrorBoundary extends React.Component<
 
     return this.props.children;
   }
+}
+
+export function SearchParamsDisplay() {
+  const location = useLocation();
+  return <div data-testid="search-params">{location.search}</div>;
+}
+
+export function PathDisplay() {
+  const location = useLocation();
+  return <div data-testid="path">{location.pathname}</div>;
 }

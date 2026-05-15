@@ -1,45 +1,59 @@
-import React from 'react';
-import type { NewsApiResponse } from '@news/types';
+import { useEffect } from 'react';
+import { Outlet, useSearchParams } from 'react-router';
+import { REQUEST_KEY } from '@/constants/localStorageKeys';
+import { PAGE_KEY } from '@/constants/searchParamsKeys';
 import { SearchNewsForm } from '@news/SearchNewsForm';
+import { NewsList } from '@news/NewsList';
+import { useLocalStorage } from '@/utils/hooks';
+import { useNews } from '@news/hooks';
 
 import styles from './NewsPage.module.scss';
-import { NewsList } from '@news/NewsList';
 
-type NewsPageState = {
-  news: NewsApiResponse | null;
-  isLoading: boolean;
-  error: string | null;
-};
+function NewsPage() {
+  const [searchRequest, setSearchRequest] = useLocalStorage(REQUEST_KEY, '');
 
-class NewsPage extends React.Component {
-  state: NewsPageState = {
-    news: null,
-    isLoading: false,
-    error: null,
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get(PAGE_KEY);
 
-  render() {
-    return (
-      <div className={styles.page}>
-        <section className={styles.search}>
-          <SearchNewsForm
-            onNewsReceived={(news: NewsApiResponse) => this.setState({ news })}
-            setIsLoading={(isLoading: boolean) => this.setState({ isLoading })}
-            isLoading={this.state.isLoading}
-            setError={(error: string | null) => this.setState({ error })}
-          />
-        </section>
+  useEffect(() => {
+    if (!page) {
+      setSearchParams((searchParams) => {
+        searchParams.set(PAGE_KEY, '1');
+        return searchParams;
+      });
+    }
+  }, [setSearchParams, page]);
 
-        <section className={styles.results}>
-          <NewsList
-            news={this.state.news}
-            isLoading={this.state.isLoading}
-            error={this.state.error}
-          />
-        </section>
-      </div>
-    );
+  const { isLoading, isError, news } = useNews(searchRequest, { page });
+
+  function handleSearch(request: string) {
+    const clearRequest = request.trim();
+
+    if (clearRequest === searchRequest) return;
+
+    setSearchParams((searchParams) => {
+      searchParams.set(PAGE_KEY, '1');
+      return searchParams;
+    });
+    setSearchRequest(clearRequest);
   }
+
+  return (
+    <div className={styles.page}>
+      <section className={styles.search}>
+        <SearchNewsForm
+          onSubmit={handleSearch}
+          isLoading={isLoading}
+          savedSearch={searchRequest}
+        />
+      </section>
+
+      <section className={styles.results}>
+        <NewsList news={news} isLoading={isLoading} isError={isError} />
+        <Outlet />
+      </section>
+    </div>
+  );
 }
 
 export default NewsPage;

@@ -1,0 +1,22 @@
+.aboutPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heading {
+  font-size: 3rem;
+}
+
+.text,
+.link {
+  font-size: 1.5rem;
+}

@@ -8,8 +8,14 @@ type ButtonProps = {
   styleSize?: Size;
 } & React.ComponentProps<'button'>;
 
-class Button extends React.Component<ButtonProps> {
-  getClassName(
+function Button({
+  variant,
+  styleSize,
+  children,
+  className,
+  ...rest
+}: ButtonProps) {
+  function getClassName(
     variant: ButtonProps['variant'],
     styleSize: ButtonProps['styleSize']
   ) {
@@ -47,18 +53,14 @@ class Button extends React.Component<ButtonProps> {
         break;
     }
 
-    return `${styles.button} ${variantClassName} ${sizeClassName} ${this.props.className ?? ''}`;
+    return `${styles.button} ${variantClassName} ${sizeClassName} ${className ?? ''}`;
   }
 
-  render() {
-    const { variant, styleSize, children, ...rest } = this.props;
-
-    return (
-      <button {...rest} className={this.getClassName(variant, styleSize)}>
-        {children}
-      </button>
-    );
-  }
+  return (
+    <button {...rest} className={getClassName(variant, styleSize)}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;

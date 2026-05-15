@@ -1,19 +1,28 @@
-import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import { AppLayout } from '@ui/AppLayout';
-import { NewsPage } from './pages/NewsPage';
 import { ErrorBoundary } from '@ui/ErrorBoundary';
 import { Fallback } from '@ui/Fallback';
+import { NewsPage } from './pages/NewsPage';
+import { NewsDetails } from '@news/NewsDetails';
+import { AboutPage } from './pages/AboutPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
-class App extends React.Component {
-  render() {
-    return (
-      <ErrorBoundary fallback={<Fallback />}>
-        <AppLayout>
-          <NewsPage />
-        </AppLayout>
-      </ErrorBoundary>
-    );
-  }
+function App() {
+  return (
+    <ErrorBoundary fallback={<Fallback />}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<NewsPage />}>
+              <Route path="details" element={<NewsDetails />} />
+            </Route>
+            <Route path="about" element={<AboutPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
+  );
 }
 
 export default App;

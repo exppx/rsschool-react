@@ -7,8 +7,8 @@ type InputProps = {
   styleSize?: Size;
 } & React.ComponentProps<'input'>;
 
-class Input extends React.Component<InputProps> {
-  getClassName(styleSize: InputProps['styleSize']) {
+function Input({ styleSize, className, ...rest }: InputProps) {
+  function getClassName(styleSize: InputProps['styleSize']) {
     let sizeClassName = '';
 
     switch (styleSize) {
@@ -26,14 +26,10 @@ class Input extends React.Component<InputProps> {
         break;
     }
 
-    return `${styles.input} ${sizeClassName} ${this.props.className ?? ''}`;
+    return `${styles.input} ${sizeClassName} ${className ?? ''}`;
   }
 
-  render() {
-    const { styleSize, ...rest } = this.props;
-
-    return <input {...rest} className={this.getClassName(styleSize)} />;
-  }
+  return <input {...rest} className={getClassName(styleSize)} />;
 }
 
 export default Input;

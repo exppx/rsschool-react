@@ -1,19 +1,15 @@
 .skeleton {
-  background: linear-gradient(
-    -45deg,
-    var(--color-light-700) 25%,
-    var(--color-light-950) 37%,
-    var(--color-light-700) 63%
-  );
-  background-size: 400% 100%;
-  animation: shimmer 10s ease infinite;
+  animation: pulse 3s ease-in-out infinite;
 }
 
-@keyframes shimmer {
+@keyframes pulse {
   0% {
-    background-position: 100% 0;
+    background-color: var(--color-light-700);
+  }
+  50% {
+    background-color: var(--color-light-900);
   }
   100% {
-    background-position: -100% 0;
+    background-color: var(--color-light-700);
   }
 }
