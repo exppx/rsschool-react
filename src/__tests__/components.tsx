@@ -1,15 +1,16 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 
-export class TestThrowingComponent extends React.Component<{
+export function TestThrowingComponent({
+  shouldThrow,
+  children,
+}: {
   shouldThrow: boolean;
   children: React.ReactNode;
-}> {
-  render() {
-    if (this.props.shouldThrow) throw new Error();
+}) {
+  if (shouldThrow) throw new Error();
 
-    return this.props.children;
-  }
+  return children;
 }
 
 type TestErrorBoundaryProps = {

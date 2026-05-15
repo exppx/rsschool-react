@@ -62,6 +62,14 @@ describe('NewsDetails', () => {
   });
 
   it('should redirect to / on close button click', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        status: 'ok',
+        articles: [mockArticle],
+        totalResults: 1,
+      }),
+    } as Response);
     const { user, pathName } = await customRender();
 
     const closeButton = await screen.findByRole('button');

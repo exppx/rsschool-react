@@ -3,6 +3,8 @@ export const TEXT = {
     header: {
       title: 'Search for News!',
       errorButton: "Don't touch",
+      about: 'About',
+      home: 'Home',
     },
     footer: {
       createdBy: 'Created by',
@@ -35,6 +37,15 @@ export const TEXT = {
         notFound: 'Could not find article',
         fetchError: 'Could not load data. Please try again later.',
       },
+    },
+  },
+  pages: {
+    about: {
+      heading: 'About app',
+      description1: 'This application was developed by ',
+      description2: ' in 2026 as part of the',
+      authorName: 'exppx',
+      rsSchoolReact: 'RS School React course',
     },
   },
 };

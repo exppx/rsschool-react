@@ -4,6 +4,7 @@ import { ErrorBoundary } from '@ui/ErrorBoundary';
 import { Fallback } from '@ui/Fallback';
 import { NewsPage } from './pages/NewsPage';
 import { NewsDetails } from '@news/NewsDetails';
+import { AboutPage } from './pages/AboutPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<NewsPage />}>
               <Route path="details" element={<NewsDetails />} />
             </Route>
+            <Route path="about" element={<AboutPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
