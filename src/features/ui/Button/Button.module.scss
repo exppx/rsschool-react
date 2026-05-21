@@ -73,6 +73,24 @@
     }
   }
 
+  &Success {
+    background-color: var(--color-success-600);
+    border-color: var(--color-success-800);
+    color: var(--color-light-300);
+
+    @include hover {
+      background-color: var(--color-success-500);
+      border-color: var(--color-success-700);
+      color: var(--color-light-200);
+    }
+
+    @include active {
+      background-color: var(--color-success-700);
+      border-color: var(--color-success-900);
+      color: var(--color-light-400);
+    }
+  }
+
   &Small {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;

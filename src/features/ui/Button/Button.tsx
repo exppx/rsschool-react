@@ -4,7 +4,7 @@ import type { Size, Variant } from '@/types/styling';
 import styles from './Button.module.scss';
 
 type ButtonProps = {
-  variant?: Extract<Variant, 'primary' | 'secondary' | 'error'>;
+  variant?: Extract<Variant, 'primary' | 'secondary' | 'error' | 'success'>;
   styleSize?: Size;
 } & React.ComponentProps<'button'>;
 
@@ -30,6 +30,9 @@ function Button({
         break;
       case 'error':
         variantClassName += styles.buttonError;
+        break;
+      case 'success':
+        variantClassName += styles.buttonSuccess;
         break;
       case undefined:
         variantClassName += styles.buttonPrimary;
