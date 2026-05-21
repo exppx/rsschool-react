@@ -1,8 +1,7 @@
-import { useNavigate, useSearchParams } from 'react-router';
 import type { NewsApiResponse } from '@news/types';
 import { TEXT } from '@/constants/text';
 import { API_PAGE_SIZE } from '@/constants/numbers';
-import { DETAILS_KEY, PAGE_KEY } from '@/constants/searchParamsKeys';
+import { PAGE_KEY } from '@/constants/searchParamsKeys';
 import { NewsItem } from './NewsItem';
 import { NewsListSkeleton } from './NewsListSkeleton';
 import { ErrorMessage } from '@ui/ErrorMessage';
@@ -17,18 +16,6 @@ type NewsListProps = {
 };
 
 function NewsList({ news, isLoading, isError }: NewsListProps) {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  function handleCloseDetails() {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete(DETAILS_KEY);
-
-    const url = `/?${newParams.toString()}`;
-
-    navigate(url);
-  }
-
   if (isError) {
     return (
       <div className={styles.errorContainer}>
@@ -56,11 +43,7 @@ function NewsList({ news, isLoading, isError }: NewsListProps) {
   }
 
   return (
-    <div
-      onClickCapture={() => {
-        handleCloseDetails();
-      }}
-    >
+    <div>
       <ul className={styles.newsList}>
         {articles.map((article) => (
           <li

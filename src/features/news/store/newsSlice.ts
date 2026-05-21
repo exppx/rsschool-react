@@ -1,3 +1,4 @@
+import type { RootState } from '@/store/store';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface NewsState {
@@ -25,6 +26,9 @@ const newsSlice = createSlice({
     },
   },
 });
+
+export const selectSelectedIds = (state: RootState) =>
+  state.newsReducer.selectedIds;
 
 export const { toggleSelectNews } = newsSlice.actions;
 
