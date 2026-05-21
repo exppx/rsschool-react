@@ -3,6 +3,7 @@ import { NavLink } from 'react-router';
 import { TEXT } from '@/constants/text';
 import { Button } from '@ui/Button';
 import { BuggyComponent } from '@ui/BuggyComponent';
+import { ThemeToggleButton } from '../ThemeToggleButton';
 
 import styles from './Header.module.scss';
 
@@ -35,6 +36,8 @@ function Header() {
           >
             {TEXT.ui.header.about}
           </NavLink>
+
+          <ThemeToggleButton />
 
           <Button
             variant="error"

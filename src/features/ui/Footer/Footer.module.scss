@@ -1,5 +1,9 @@
 .footer {
-  background-color: var(--color-primary-900);
+  background-color: var(--brand-primary);
+
+  & a {
+    color: var(--color-light-300);
+  }
 }
 
 .wrapper {
@@ -12,5 +16,5 @@
 }
 
 .credits {
-  color: var(--color-light-500);
+  color: var(--color-light-300);
 }

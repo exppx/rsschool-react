@@ -6,12 +6,12 @@
   width: 15rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: var(--color-primary-400);
+  background-color: var(--brand-primary);
   position: fixed;
   bottom: 1rem;
   left: 1rem;
   will-change: transform;
-  box-shadow: 0 2px 5px var(--color-dark-900);
+  box-shadow: 0 2px 5px var(--color-shadow);
   animation: bounce-in 0.2s;
 }
 
@@ -28,7 +28,7 @@
 .loading {
   text-align: center;
   font-size: 1.5rem;
-  color: var(--color-light-200);
+  color: var(--color-light-300);
 }
 
 .error {

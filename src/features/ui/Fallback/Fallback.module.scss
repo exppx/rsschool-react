@@ -8,11 +8,11 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  background-color: var(--color-primary-100);
+  background-color: var(--brand-primary);
   background-image: radial-gradient(
     closest-corner,
-    var(--color-danger-400),
-    var(--color-primary-400)
+    var(--danger-border),
+    var(--brand-primary)
   );
 }
 

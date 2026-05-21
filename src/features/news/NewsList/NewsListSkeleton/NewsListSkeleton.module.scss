@@ -12,15 +12,15 @@
   padding: 1rem;
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--color-dark-400);
+    border-bottom: 1px solid var(--border-primary);
   }
 
   &:nth-child(odd) {
-    background-color: var(--color-secondary-200);
+    background-color: var(--surface-secondary);
   }
 
   &:nth-child(even) {
-    background-color: var(--color-secondary-300);
+    background-color: var(--surface-primary);
   }
 
   &:first-child {

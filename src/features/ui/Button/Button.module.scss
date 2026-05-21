@@ -1,4 +1,4 @@
-@use '../../../styles/mixins' as *;
+@use '@/styles/mixins' as *;
 
 .button {
   line-height: 1;
@@ -8,9 +8,9 @@
   cursor: pointer;
 
   &:disabled {
-    background-color: var(--color-disabled-500);
-    border-color: var(--color-disabled-700);
-    color: var(--color-disabled-900);
+    background-color: var(--disabled-background);
+    border-color: var(--disabled-border);
+    color: var(--disabled-text);
     cursor: not-allowed;
     user-select: none;
   }
@@ -56,19 +56,19 @@
   }
 
   &Error {
-    background-color: var(--color-danger-500);
-    border-color: var(--color-danger-700);
+    background-color: var(--danger-background);
+    border-color: var(--danger-border);
     color: var(--color-light-300);
 
     @include hover {
-      background-color: var(--color-danger-400);
-      border-color: var(--color-danger-600);
+      background-color: var(--danger-background-hover);
+      border-color: var(--danger-border-hover);
       color: var(--color-light-200);
     }
 
     @include active {
-      background-color: var(--color-danger-600);
-      border-color: var(--color-danger-800);
+      background-color: var(--danger-background-active);
+      border-color: var(--danger-border-active);
       color: var(--color-light-400);
     }
   }
