@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
+import { useTheme } from '@/contexts/theme';
 
 export function TestThrowingComponent({
   shouldThrow,
@@ -48,4 +49,10 @@ export function SearchParamsDisplay() {
 export function PathDisplay() {
   const location = useLocation();
   return <div data-testid="path">{location.pathname}</div>;
+}
+
+export function TestThemeToggler() {
+  const { toggleTheme } = useTheme();
+
+  return <button onClick={toggleTheme} data-testid="theme-toggle"></button>;
 }

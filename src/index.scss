@@ -35,10 +35,10 @@
 
   /* dark */
   --color-dark-50: #e6e9ef;
-  --color-dark-100: #d0d3da;
-  --color-dark-200: #a9b0bf;
-  --color-dark-300: #7a8496;
-  --color-dark-400: #4f5a6f;
+  --color-dark-100: #a6aab4;
+  --color-dark-200: #797f8b;
+  --color-dark-300: #454a55;
+  --color-dark-400: #20252e;
   --color-dark-500: #121b2d;
   --color-dark-600: #0f1726;
   --color-dark-700: #0d1422;
@@ -138,10 +138,137 @@
   --color-disabled-950: #222222;
 }
 
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* surfaces */
+  --background-primary: var(--color-dark-700);
+  --background-secondary: var(--color-dark-800);
+
+  --surface-primary: var(--color-dark-400);
+  --surface-secondary: var(--color-dark-500);
+  --surface-tertiary: var(--color-dark-600);
+
+  /* text */
+  --text-primary: var(--color-light-50);
+  --text-secondary: var(--color-light-500);
+  --text-tertiary: var(--color-dark-300);
+  --text-fourth: var(--color-dark-400);
+
+  /* borders */
+  --border-primary: var(--color-dark-300);
+  --border-secondary: var(--color-dark-400);
+
+  /* brand */
+  --brand-primary: var(--color-primary-400);
+  --brand-primary-hover: var(--color-primary-300);
+  --brand-primary-active: var(--color-primary-200);
+
+  --brand-secondary: var(--color-secondary-400);
+  --brand-secondary-hover: var(--color-secondary-300);
+  --brand-secondary-active: var(--color-secondary-200);
+
+  /* danger */
+  --danger-background: var(--color-danger-800);
+  --danger-background-hover: var(--color-danger-700);
+  --danger-background-active: var(--color-danger-900);
+
+  --danger-border: var(--color-danger-500);
+  --danger-border-hover: var(--color-danger-400);
+  --danger-border-active: var(--color-danger-600);
+
+  --danger-text: var(--color-danger-200);
+
+  /* inputs */
+  --input-background: var(--color-dark-400);
+  --input-border: var(--color-dark-300);
+  --input-border-focus: var(--color-primary-400);
+  --input-placeholder: var(--color-light-800);
+  --input-text: var(--color-light-100);
+
+  /* disabled */
+  --disabled-background: var(--color-disabled-900);
+  --disabled-border: var(--color-disabled-700);
+  --disabled-text: var(--color-disabled-500);
+
+  /* skeleton */
+  --skeleton-primary: var(--color-dark-200);
+  --skeleton-secondary: var(--color-dark-300);
+
+  /* shadow */
+  --color-shadow: var(--color-light-950);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  /* surfaces */
+  --background-primary: var(--color-light-300);
+  --background-secondary: var(--color-light-400);
+
+  --surface-primary: var(--color-light-500);
+  --surface-secondary: var(--color-light-600);
+  --surface-tertiary: var(--color-light-700);
+
+  /* text */
+  --text-primary: var(--color-dark-500);
+  --text-secondary: var(--color-dark-300);
+  --text-tertiary: var(--color-light-900);
+  --text-fourth: var(--color-light-800);
+
+  /* borders */
+  --border-primary: var(--color-dark-200);
+  --border-secondary: var(--color-dark-100);
+
+  /* brand */
+  --brand-primary: var(--color-primary-500);
+  --brand-primary-hover: var(--color-primary-400);
+  --brand-primary-active: var(--color-primary-600);
+
+  --brand-secondary: var(--color-secondary-500);
+  --brand-secondary-hover: var(--color-secondary-400);
+  --brand-secondary-active: var(--color-secondary-600);
+
+  /* danger */
+  --danger-background: var(--color-danger-500);
+  --danger-background-hover: var(--color-danger-400);
+  --danger-background-active: var(--color-danger-600);
+
+  --danger-border: var(--color-danger-700);
+  --danger-border-hover: var(--color-danger-600);
+  --danger-border-active: var(--color-danger-800);
+
+  --danger-text: var(--color-danger-100);
+
+  /* inputs */
+  --input-background: var(--color-white-100);
+  --input-border: var(--color-light-500);
+  --input-border-focus: var(--color-primary-400);
+  --input-placeholder: var(--color-light-800);
+  --input-text: var(--color-dark-500);
+
+  /* disabled */
+  --disabled-background: var(--color-disabled-300);
+  --disabled-border: var(--color-disabled-500);
+  --disabled-text: var(--color-disabled-700);
+
+  /* skeleton */
+  --skeleton-primary: var(--color-light-300);
+  --skeleton-secondary: var(--color-light-400);
+
+  /* shadow */
+  --color-shadow: var(--color-light-950);
+}
+
 html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
   line-height: 1;
+  color: var(--text-primary);
+}
+
+body {
+  background-color: var(--background-secondary);
 }
 
 h1 {
@@ -167,5 +294,5 @@ button {
   font-size: inherit;
 
   outline-offset: 0.25rem;
-  outline-color: var(--color-primary-500);
+  outline-color: var(--brand-primary);
 }

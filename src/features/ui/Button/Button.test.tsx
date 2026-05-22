@@ -41,6 +41,7 @@ describe('Button', () => {
     { variant: 'primary', className: styles.buttonPrimary },
     { variant: 'secondary', className: styles.buttonSecondary },
     { variant: 'error', className: styles.buttonError },
+    { variant: 'success', className: styles.buttonSuccess },
   ])(
     'should have class $className if variant $variant specified',
     ({ variant, className }) => {

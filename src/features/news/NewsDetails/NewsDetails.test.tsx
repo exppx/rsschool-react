@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import type { Mock } from 'vitest';
 import { DETAILS_KEY } from '@/constants/searchParamsKeys';
@@ -48,11 +48,13 @@ describe('NewsDetails', () => {
   it('should render news details', async () => {
     mockFetch.mockResolvedValue({
       ok: true,
-      json: async () => ({
-        status: 'ok',
-        articles: [mockArticle],
-        totalResults: 1,
-      }),
+      status: 200,
+      json: () =>
+        Promise.resolve({
+          status: 'ok',
+          articles: [mockArticle],
+          totalResults: 1,
+        }),
     } as Response);
     await customRender();
 
@@ -64,11 +66,13 @@ describe('NewsDetails', () => {
   it('should redirect to / on close button click', async () => {
     mockFetch.mockResolvedValue({
       ok: true,
-      json: async () => ({
-        status: 'ok',
-        articles: [mockArticle],
-        totalResults: 1,
-      }),
+      status: 200,
+      json: () =>
+        Promise.resolve({
+          status: 'ok',
+          articles: [mockArticle],
+          totalResults: 1,
+        }),
     } as Response);
     const { user, pathName } = await customRender();
 
@@ -81,24 +85,62 @@ describe('NewsDetails', () => {
   it('should inform if article not found', async () => {
     mockFetch.mockResolvedValue({
       ok: true,
-      json: async () => ({
-        status: 'ok',
-        articles: [],
-        totalResults: 0,
-      }),
+      status: 200,
+      json: () =>
+        Promise.resolve({
+          status: 'ok',
+          articles: [],
+          totalResults: 0,
+        }),
     } as Response);
+
     await customRender();
 
-    const message = screen.getByText(TEXT.features.news.newsDetails.notFound);
-
-    expect(message).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByText(TEXT.features.news.newsDetails.notFound)
+      ).toBeInTheDocument();
+    });
   });
 
-  it('should show error message on api error', async () => {
-    mockFetch.mockRejectedValue(new Error('Error'));
+  it('should render articles on api response status non 4xx/5xx', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 300,
+      json: () =>
+        Promise.resolve({
+          status: 'ok',
+          articles: [mockArticle],
+          totalResults: 1,
+        }),
+    } as Response);
+
     await customRender();
 
-    expect(screen.queryByText('Title')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Title')).toBeInTheDocument();
+    });
+  });
+
+  it('should show error message on api status 4xx', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 404 });
+    await customRender();
+
+    await waitFor(() => {
+      expect(screen.queryByText('Title')).not.toBeInTheDocument();
+    });
+    expect(
+      screen.getByText(TEXT.features.news.newsDetails.fetchError)
+    ).toBeInTheDocument();
+  });
+
+  it('should show error message on api status 5xx', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 500 });
+    await customRender();
+
+    await waitFor(() => {
+      expect(screen.queryByText('Title')).not.toBeInTheDocument();
+    });
     expect(
       screen.getByText(TEXT.features.news.newsDetails.fetchError)
     ).toBeInTheDocument();

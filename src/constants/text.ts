@@ -37,6 +37,14 @@ export const TEXT = {
         notFound: 'Could not find article',
         fetchError: 'Could not load data. Please try again later.',
       },
+      newsFlyout: {
+        selected: 'Selected: ',
+        download1: 'Download ',
+        download2: ' news',
+        unselect: 'Unselect all',
+        error: 'Failed to download',
+        downloading: 'Downloading...',
+      },
     },
   },
   pages: {

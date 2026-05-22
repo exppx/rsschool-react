@@ -6,6 +6,7 @@ import { SearchNewsForm } from '@news/SearchNewsForm';
 import { NewsList } from '@news/NewsList';
 import { useLocalStorage } from '@/utils/hooks';
 import { useNews } from '@news/hooks';
+import { NewsFlyout } from '@/features/news/NewsFlyout';
 
 import styles from './NewsPage.module.scss';
 
@@ -52,6 +53,8 @@ function NewsPage() {
         <NewsList news={news} isLoading={isLoading} isError={isError} />
         <Outlet />
       </section>
+
+      <NewsFlyout />
     </div>
   );
 }

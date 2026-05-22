@@ -4,16 +4,30 @@ import NewsItem from './NewsItem';
 import { mockArticle, mockEmptyArticle } from '@/__tests__/mocks';
 import { MemoryRouter } from 'react-router';
 import { PathDisplay, SearchParamsDisplay } from '@/__tests__/components';
+import { createTestStore } from '@/__tests__/store';
+import { Provider } from 'react-redux';
 
 describe('NewsItem', () => {
   function customRender({ isMockEmpty }: { isMockEmpty?: boolean } = {}) {
+    const article = isMockEmpty ? mockEmptyArticle : mockArticle;
+    const store = createTestStore();
     render(
-      <MemoryRouter initialEntries={['/?page=1']}>
-        <NewsItem article={isMockEmpty ? mockEmptyArticle : mockArticle} />
-        <PathDisplay />
-        <SearchParamsDisplay />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?page=1']}>
+          <NewsItem article={article} />
+          <PathDisplay />
+          <SearchParamsDisplay />
+        </MemoryRouter>
+      </Provider>
     );
+
+    const user = userEvent.setup();
+
+    return {
+      article,
+      store,
+      user,
+    };
   }
 
   it('should render without breaking', () => {
@@ -57,5 +71,37 @@ describe('NewsItem', () => {
 
     const searchParamsAfter = screen.getByTestId('search-params').textContent;
     expect(searchParamsAfter).toMatch(searchParamsBefore);
+  });
+
+  it('should toggle checkbox on click', async () => {
+    const { user } = customRender();
+
+    const checkbox = screen.getByRole('checkbox');
+    await user.click(checkbox);
+
+    expect(checkbox).toBeChecked();
+  });
+
+  it('should add item to store on checkbox click', async () => {
+    const { user, store, article } = customRender();
+
+    const checkbox = screen.getByRole('checkbox');
+    await user.click(checkbox);
+
+    expect(
+      store.getState().news.selectedIds.includes(article.title)
+    ).toBeTruthy();
+  });
+
+  it('should remove item from store on repeated checkbox click', async () => {
+    const { user, store, article } = customRender();
+
+    const checkbox = screen.getByRole('checkbox');
+    await user.click(checkbox);
+    await user.click(checkbox);
+
+    expect(
+      store.getState().news.selectedIds.includes(article.title)
+    ).toBeFalsy();
   });
 });

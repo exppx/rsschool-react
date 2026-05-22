@@ -22,7 +22,7 @@ describe('SearchNewsForm', () => {
     );
 
     const input = screen.getByRole('textbox');
-    const button = screen.getByRole('button');
+    const button = screen.getByRole('button', { name: 'search button' });
     const user = userEvent.setup();
 
     return {

@@ -35,9 +35,10 @@ function SearchNewsForm({
         disabled={isLoading}
         value={request}
         onChange={(e) => setRequest(e.target.value)}
+        aria-label="search input"
       />
 
-      <Button type="submit" disabled={isLoading}>
+      <Button type="submit" disabled={isLoading} aria-label="search button">
         <img className={styles.buttonIcon} src={searchIcon} />
       </Button>
     </form>

@@ -1,0 +1,25 @@
+@use '@/styles/_mixins' as *;
+
+.themeToggler {
+  border: none;
+  background: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  @include hover {
+    background-color: color-mix(
+      in oklab,
+      var(--color-light-300) 20%,
+      transparent 80%
+    );
+  }
+}
+
+.themeTogglerIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}

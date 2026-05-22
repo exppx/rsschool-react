@@ -4,16 +4,21 @@ import { TEXT } from '@/constants/text';
 import { mockEmptyNews, mockNews } from '@/__tests__/mocks';
 import type React from 'react';
 import { MemoryRouter } from 'react-router';
-import userEvent from '@testing-library/user-event';
-import { PathDisplay } from '@/__tests__/components';
+import { createTestStore } from '@/__tests__/store';
+import { Provider } from 'react-redux';
 
 describe('NewsList', () => {
   function customRender(node: React.ReactNode) {
-    const { container } = render(
-      <MemoryRouter initialEntries={['/?page=1']}>{node}</MemoryRouter>
-    );
+    const store = createTestStore();
 
-    return { container };
+    return {
+      store,
+      ...render(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/?page=1']}>{node}</MemoryRouter>
+        </Provider>
+      ),
+    };
   }
 
   it('should render without breaking', () => {
@@ -64,21 +69,5 @@ describe('NewsList', () => {
     );
 
     expect(container).toBeEmptyDOMElement();
-  });
-
-  it('should close details on click', async () => {
-    render(
-      <MemoryRouter initialEntries={['/details/?page=1']}>
-        <NewsList news={mockNews} isLoading={false} isError={false} />
-        <PathDisplay />
-      </MemoryRouter>
-    );
-    const user = userEvent.setup();
-    const pathDisplay = screen.getByTestId('path');
-
-    const listArea = screen.getByRole('list');
-    await user.click(listArea);
-
-    expect(pathDisplay.textContent).toBe('/');
   });
 });

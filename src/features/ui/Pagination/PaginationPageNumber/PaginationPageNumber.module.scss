@@ -14,12 +14,12 @@
     cursor: pointer;
 
     @include hover {
-      background-color: var(--color-secondary-200);
+      background-color: var(--brand-secondary-hover);
     }
   }
 
   &Active {
-    background-color: var(--color-secondary-400);
+    background-color: var(--brand-secondary);
     cursor: default;
   }
 }

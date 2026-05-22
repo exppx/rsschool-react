@@ -4,12 +4,12 @@
 
 @keyframes pulse {
   0% {
-    background-color: var(--color-light-700);
+    background-color: var(--skeleton-primary);
   }
   50% {
-    background-color: var(--color-light-900);
+    background-color: var(--skeleton-secondary);
   }
   100% {
-    background-color: var(--color-light-700);
+    background-color: var(--skeleton-primary);
   }
 }
