@@ -12,6 +12,7 @@ function ThemeToggleButton() {
       <img
         src={theme === 'light' ? moon : sun}
         className={styles.themeTogglerIcon}
+        alt="theme"
       />
     </button>
   );

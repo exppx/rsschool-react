@@ -31,8 +31,7 @@ const newsSlice = createSlice({
   },
 });
 
-export const selectSelectedIds = (state: RootState) =>
-  state.newsReducer.selectedIds;
+export const selectSelectedIds = (state: RootState) => state.news.selectedIds;
 
 export const { toggleSelectNews, unselectAllNews } = newsSlice.actions;
 

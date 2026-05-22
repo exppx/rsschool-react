@@ -26,6 +26,7 @@ export function useQuery<T>({ queryFn, initialData }: useQueryProps<T>) {
         if (error instanceof Error && error.name === 'AbortError') return;
 
         setIsError(true);
+        setData(initialData);
       } finally {
         if (!signal.aborted) {
           setIsLoading(false);
@@ -38,7 +39,7 @@ export function useQuery<T>({ queryFn, initialData }: useQueryProps<T>) {
     return () => {
       abortController.abort();
     };
-  }, [queryFn]);
+  }, [queryFn, initialData]);
 
   return { isLoading, isError, data };
 }

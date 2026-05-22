@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NewsPage from './NewsPage';
 import { mockNews } from '@/__tests__/mocks';
@@ -7,6 +7,8 @@ import type { Mock } from 'vitest';
 import { MemoryRouter } from 'react-router';
 import { SearchParamsDisplay } from '@/__tests__/components';
 import { act } from 'react';
+import { createTestStore } from '@/__tests__/store';
+import { Provider } from 'react-redux';
 
 describe('NewsPage', () => {
   let mockFetch: Mock;
@@ -18,35 +20,37 @@ describe('NewsPage', () => {
   });
 
   async function customRender(options?: {
-    reject?: boolean;
     savedTerm?: string;
+    response?: { ok: boolean; status: number; json: () => Promise<unknown> };
   }) {
+    const store = createTestStore();
     const testText = 'testText';
-    const errorText = 'Error text';
 
-    if (options?.reject) {
-      mockFetch.mockRejectedValue(new Error(errorText));
-    } else {
-      mockFetch.mockResolvedValue({
-        ok: true,
-        json: async () => mockNews,
-      } as Response);
-    }
+    mockFetch.mockResolvedValue(
+      options?.response ??
+        ({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(mockNews),
+        } as Response)
+    );
 
     if (options?.savedTerm) {
       localStorage.setItem(REQUEST_KEY, JSON.stringify(options.savedTerm));
     }
 
-    await act(async () => {
-      render(
+    render(
+      <Provider store={store}>
         <MemoryRouter initialEntries={['/?page=1']}>
           <NewsPage />
         </MemoryRouter>
-      );
-    });
+      </Provider>
+    );
 
-    const input = await screen.findByRole('textbox');
-    const button = await screen.findByRole('button', { name: '' });
+    const input = await screen.findByRole('textbox', {
+      name: 'search input',
+    });
+    const button = await screen.findByRole('button', { name: 'search button' });
     const user = userEvent.setup();
 
     return {
@@ -84,8 +88,38 @@ describe('NewsPage', () => {
     expect(mockFetch).toHaveBeenCalled();
   });
 
-  it('should not throw on api error', async () => {
-    await expect(customRender({ reject: true })).resolves.not.toThrow();
+  it('should render articles on api response status non 4xx/5xx', async () => {
+    await customRender({
+      response: {
+        ok: false,
+        status: 300,
+        json: () => Promise.resolve(mockNews),
+      },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Title 1')).toBeInTheDocument();
+    });
+  });
+
+  it('should not render articles on api status 4xx', async () => {
+    await customRender({
+      response: { ok: false, status: 404, json: () => Promise.resolve('') },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
+    });
+  });
+
+  it('should not render articles on api status 5xx', async () => {
+    await customRender({
+      response: { ok: false, status: 500, json: () => Promise.resolve('') },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
+    });
   });
 
   it('should save search term to localStorage when search button is clicked', async () => {
@@ -130,12 +164,15 @@ describe('NewsPage', () => {
   });
 
   it('should set page to 1 if no page in search parameters', async () => {
+    const store = createTestStore();
     await act(async () => {
       render(
-        <MemoryRouter initialEntries={['/']}>
-          <NewsPage />
-          <SearchParamsDisplay />
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <NewsPage />
+            <SearchParamsDisplay />
+          </MemoryRouter>
+        </Provider>
       );
     });
 

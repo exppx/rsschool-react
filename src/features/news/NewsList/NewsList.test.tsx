@@ -4,14 +4,21 @@ import { TEXT } from '@/constants/text';
 import { mockEmptyNews, mockNews } from '@/__tests__/mocks';
 import type React from 'react';
 import { MemoryRouter } from 'react-router';
+import { createTestStore } from '@/__tests__/store';
+import { Provider } from 'react-redux';
 
 describe('NewsList', () => {
   function customRender(node: React.ReactNode) {
-    const { container } = render(
-      <MemoryRouter initialEntries={['/?page=1']}>{node}</MemoryRouter>
-    );
+    const store = createTestStore();
 
-    return { container };
+    return {
+      store,
+      ...render(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/?page=1']}>{node}</MemoryRouter>
+        </Provider>
+      ),
+    };
   }
 
   it('should render without breaking', () => {

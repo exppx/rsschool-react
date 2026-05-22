@@ -144,7 +144,6 @@
   /* surfaces */
   --background-primary: var(--color-dark-700);
   --background-secondary: var(--color-dark-800);
-  --background-tertiary: var(--color-dark-900);
 
   --surface-primary: var(--color-dark-400);
   --surface-secondary: var(--color-dark-500);
@@ -204,13 +203,12 @@
   color-scheme: light;
 
   /* surfaces */
-  --background-primary: var(--color-light-400);
-  --background-secondary: var(--color-light-500);
-  --background-tertiary: var(--color-light-600);
+  --background-primary: var(--color-light-300);
+  --background-secondary: var(--color-light-400);
 
-  --surface-primary: var(--color-light-700);
-  --surface-secondary: var(--color-light-800);
-  --surface-tertiary: var(--color-light-900);
+  --surface-primary: var(--color-light-500);
+  --surface-secondary: var(--color-light-600);
+  --surface-tertiary: var(--color-light-700);
 
   /* text */
   --text-primary: var(--color-dark-500);
@@ -243,7 +241,7 @@
   --danger-text: var(--color-danger-100);
 
   /* inputs */
-  --input-background: var(--color-white-200);
+  --input-background: var(--color-white-100);
   --input-border: var(--color-light-500);
   --input-border-focus: var(--color-primary-400);
   --input-placeholder: var(--color-light-800);
@@ -259,7 +257,7 @@
   --skeleton-secondary: var(--color-light-400);
 
   /* shadow */
-  --color-shadow: rgb(0 0 0 / 0.12);
+  --color-shadow: var(--color-light-950);
 }
 
 html {
