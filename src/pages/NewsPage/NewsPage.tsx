@@ -5,8 +5,9 @@ import { PAGE_KEY } from '@/constants/searchParamsKeys';
 import { SearchNewsForm } from '@news/SearchNewsForm';
 import { NewsList } from '@news/NewsList';
 import { useLocalStorage } from '@/utils/hooks';
-import { useNews } from '@news/hooks';
 import { NewsFlyout } from '@/features/news/NewsFlyout';
+import { useGetNewsQuery } from '@/features/news/api/newsApi';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 import styles from './NewsPage.module.scss';
 
@@ -25,7 +26,11 @@ function NewsPage() {
     }
   }, [setSearchParams, page]);
 
-  const { isLoading, isError, news } = useNews(searchRequest, { page });
+  const {
+    isFetching,
+    isError,
+    data: news,
+  } = useGetNewsQuery(page ? { query: searchRequest, page } : skipToken);
 
   function handleSearch(request: string) {
     const clearRequest = request.trim();
@@ -44,13 +49,13 @@ function NewsPage() {
       <section className={styles.search}>
         <SearchNewsForm
           onSubmit={handleSearch}
-          isLoading={isLoading}
+          isLoading={isFetching}
           savedSearch={searchRequest}
         />
       </section>
 
       <section className={styles.results}>
-        <NewsList news={news} isLoading={isLoading} isError={isError} />
+        <NewsList news={news} isLoading={isFetching} isError={isError} />
         <Outlet />
       </section>
 
