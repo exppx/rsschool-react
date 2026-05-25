@@ -1,24 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSelectedIds, unselectAllNews } from '@news/store';
 import { TEXT } from '@/constants/text';
-import { fetchNewsByDetails } from '@news/api/fetchNewsByDetails';
 import { convertArrayOfObjectsToCsv } from '@/utils/csv/convertArrayOfObjectsToCsv';
 import { downloadCsv } from '@/utils/csv/downloadCsv';
 import { Button } from '@ui/Button';
 
 import styles from './NewsFlyout.module.scss';
+import { useLazyGetNewsByDetailsListQuery } from '../api/newsApi';
 
 function NewsFlyout() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const timeoutRef = useRef<number | undefined>(undefined);
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutRef.current);
-    };
-  }, []);
+  const [getNewsByDetailsList, { isLoading, isError }] =
+    useLazyGetNewsByDetailsListQuery();
 
   const dispatch = useDispatch();
   const selectedIds = useSelector(selectSelectedIds);
@@ -27,23 +20,13 @@ function NewsFlyout() {
   if (selectedCount === 0) return null;
 
   async function handleDownload() {
-    try {
-      setIsLoading(true);
+    const result = await getNewsByDetailsList(selectedIds, true);
 
-      const data = await Promise.all(
-        selectedIds.map((id) => fetchNewsByDetails(id))
-      );
+    if (!result.data) return;
 
-      const validData = data.filter((article) => article !== undefined);
-      const csv = convertArrayOfObjectsToCsv(validData);
+    const csv = convertArrayOfObjectsToCsv(result.data);
 
-      downloadCsv(csv, `${selectedCount}_news.csv`);
-    } catch {
-      setIsError(true);
-      timeoutRef.current = setTimeout(() => setIsError(false), 3000);
-    } finally {
-      setIsLoading(false);
-    }
+    downloadCsv(csv, `${selectedCount}_news.csv`);
   }
 
   function handleUnselect() {
@@ -77,11 +60,7 @@ function NewsFlyout() {
     <div className={styles.flyout}>
       {content}
 
-      <Button
-        variant="success"
-        onClick={handleDownload}
-        disabled={isLoading || isError}
-      >
+      <Button variant="success" onClick={handleDownload} disabled={isLoading}>
         {TEXT.features.news.newsFlyout.download1}
         {selectedCount}
         {TEXT.features.news.newsFlyout.download2}

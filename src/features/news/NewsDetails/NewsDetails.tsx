@@ -4,9 +4,10 @@ import { TEXT } from '@/constants/text';
 import { ErrorMessage } from '@ui/ErrorMessage';
 import { NewsDetailsSkeleton } from './NewsDetailsSkeleton';
 import { Button } from '@ui/Button';
-import { useNewsByDetails } from '@news/hooks';
+import { useGetNewsByDetailsQuery } from '../api/newsApi';
 
 import styles from './NewsDetails.module.scss';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 function NewsDetails() {
   const navigate = useNavigate();
@@ -22,7 +23,11 @@ function NewsDetails() {
 
   const [searchParams] = useSearchParams();
   const details = searchParams.get(DETAILS_KEY);
-  const { isLoading, isError, article } = useNewsByDetails(details);
+  const {
+    isFetching,
+    isError,
+    data: article,
+  } = useGetNewsByDetailsQuery(details ?? skipToken);
 
   if (details === null)
     return (
@@ -40,14 +45,12 @@ function NewsDetails() {
       </div>
     );
 
-  if (isLoading)
+  if (isFetching)
     return (
       <div className={styles.detailsContainer}>
         <NewsDetailsSkeleton />
       </div>
     );
-
-  if (article === null) return;
 
   if (article === undefined)
     return (

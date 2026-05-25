@@ -10,7 +10,7 @@ import { Pagination } from '@ui/Pagination';
 import styles from './NewsList.module.scss';
 
 type NewsListProps = {
-  news: NewsApiResponse | null;
+  news: NewsApiResponse | undefined;
   isLoading: boolean;
   isError: boolean;
 };
