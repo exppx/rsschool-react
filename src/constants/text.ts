@@ -5,6 +5,7 @@ export const TEXT = {
       errorButton: "Don't touch",
       about: 'About',
       home: 'Home',
+      invalidateCache: 'Invalidate cache',
     },
     footer: {
       createdBy: 'Created by',
