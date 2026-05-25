@@ -7,9 +7,9 @@ import { NewsList } from '@news/NewsList';
 import { useLocalStorage } from '@/utils/hooks';
 import { NewsFlyout } from '@/features/news/NewsFlyout';
 import { useGetNewsQuery } from '@/features/news/api/newsApi';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 import styles from './NewsPage.module.scss';
-import { skipToken } from '@reduxjs/toolkit/query';
 
 function NewsPage() {
   const [searchRequest, setSearchRequest] = useLocalStorage(REQUEST_KEY, '');

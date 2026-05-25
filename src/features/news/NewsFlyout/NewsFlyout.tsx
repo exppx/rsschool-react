@@ -5,9 +5,9 @@ import { TEXT } from '@/constants/text';
 import { convertArrayOfObjectsToCsv } from '@/utils/csv/convertArrayOfObjectsToCsv';
 import { downloadCsv } from '@/utils/csv/downloadCsv';
 import { Button } from '@ui/Button';
+import { useLazyGetNewsByDetailsListQuery } from '@news/api/newsApi';
 
 import styles from './NewsFlyout.module.scss';
-import { useLazyGetNewsByDetailsListQuery } from '../api/newsApi';
 
 function NewsFlyout() {
   const [getNewsByDetailsList, { isLoading, isError }] =

@@ -3,37 +3,64 @@ import userEvent from '@testing-library/user-event';
 import NewsPage from './NewsPage';
 import { mockNews } from '@/__tests__/mocks';
 import { REQUEST_KEY } from '@/constants/localStorageKeys';
-import type { Mock } from 'vitest';
 import { MemoryRouter } from 'react-router';
 import { SearchParamsDisplay } from '@/__tests__/components';
 import { act } from 'react';
 import { createTestStore } from '@/__tests__/store';
 import { Provider } from 'react-redux';
+import type { NewsApiResponse } from '@news/types';
+
+let mockQueryState: {
+  data: NewsApiResponse;
+  isFetching: boolean;
+  isError: boolean;
+} = {
+  data: mockNews,
+  isFetching: false,
+  isError: false,
+};
+
+vi.mock('@news/api/newsApi', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@news/api/newsApi')>();
+
+  return {
+    ...actual,
+    useGetNewsQuery: () => ({
+      get data() {
+        return mockQueryState.data;
+      },
+      get isFetching() {
+        return mockQueryState.isFetching;
+      },
+      get isError() {
+        return mockQueryState.isError;
+      },
+    }),
+  };
+});
 
 describe('NewsPage', () => {
-  let mockFetch: Mock;
-
   beforeEach(() => {
     localStorage.clear();
-    vi.restoreAllMocks();
-    mockFetch = vi.spyOn(window, 'fetch');
+    vi.clearAllMocks();
   });
 
   async function customRender(options?: {
     savedTerm?: string;
-    response?: { ok: boolean; status: number; json: () => Promise<unknown> };
+    response?: {
+      data?: NewsApiResponse;
+      isFetching?: boolean;
+      isError?: boolean;
+    };
   }) {
+    mockQueryState = {
+      data: options?.response?.data ?? mockNews,
+      isFetching: options?.response?.isFetching ?? false,
+      isError: options?.response?.isError ?? false,
+    };
+
     const store = createTestStore();
     const testText = 'testText';
-
-    mockFetch.mockResolvedValue(
-      options?.response ??
-        ({
-          ok: true,
-          status: 200,
-          json: () => Promise.resolve(mockNews),
-        } as Response)
-    );
 
     if (options?.savedTerm) {
       localStorage.setItem(REQUEST_KEY, JSON.stringify(options.savedTerm));
@@ -81,41 +108,16 @@ describe('NewsPage', () => {
     expect(input).toHaveValue('');
   });
 
-  it('should fetch data on load', async () => {
-    const savedText = 'savedText';
-    await customRender({ savedTerm: savedText });
-
-    expect(mockFetch).toHaveBeenCalled();
-  });
-
-  it('should render articles on api response status non 4xx/5xx', async () => {
-    await customRender({
-      response: {
-        ok: false,
-        status: 300,
-        json: () => Promise.resolve(mockNews),
-      },
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByText('Title 1')).toBeInTheDocument();
-    });
-  });
-
-  it('should not render articles on api status 4xx', async () => {
-    await customRender({
-      response: { ok: false, status: 404, json: () => Promise.resolve('') },
-    });
+  it('should not render articles on api error', async () => {
+    await customRender({ response: { isError: true } });
 
     await waitFor(() => {
       expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
     });
   });
 
-  it('should not render articles on api status 5xx', async () => {
-    await customRender({
-      response: { ok: false, status: 500, json: () => Promise.resolve('') },
-    });
+  it('should show skeleton while fetching data', async () => {
+    await customRender({ response: { isFetching: true } });
 
     await waitFor(() => {
       expect(screen.queryByText('Title 1')).not.toBeInTheDocument();
@@ -131,6 +133,17 @@ describe('NewsPage', () => {
     expect(localStorage.getItem(REQUEST_KEY)).toBe(JSON.stringify(testText));
   });
 
+  it('should not perform new search if term did not change', async () => {
+    const { user, input, button, testText } = await customRender();
+
+    await user.type(input, testText);
+    await user.click(button);
+    expect(screen.getByText(/title 1/i)).toBeInTheDocument();
+
+    await user.click(button);
+    expect(screen.getByText(/title 1/i)).toBeInTheDocument();
+  });
+
   it('should trim whitespaces from search input before saving', async () => {
     const { user, input, button, testText } = await customRender();
 
@@ -138,16 +151,6 @@ describe('NewsPage', () => {
     await user.click(button);
 
     expect(localStorage.getItem(REQUEST_KEY)).toBe(JSON.stringify(testText));
-  });
-
-  it('should trigger fetch only once if search did not change', async () => {
-    const { user, input, button, testText } = await customRender();
-
-    await user.type(input, testText);
-    await user.click(button);
-    await user.click(button);
-
-    expect(mockFetch).toHaveBeenCalledTimes(2);
   });
 
   it('should overwrite saved search if it changed', async () => {

@@ -1,25 +1,64 @@
-import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import type { Mock } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import type { Article } from '@news/types';
 import { DETAILS_KEY } from '@/constants/searchParamsKeys';
 import { TEXT } from '@/constants/text';
-import NewsDetails from './NewsDetails';
 import { mockArticle } from '@/__tests__/mocks';
-import userEvent from '@testing-library/user-event';
 import { PathDisplay, SearchParamsDisplay } from '@/__tests__/components';
-import { act } from 'react';
+import NewsDetails from './NewsDetails';
+import { createTestStore } from '@/__tests__/store';
+import { Provider } from 'react-redux';
+
+let mockQueryState: {
+  data: Article | undefined;
+  isFetching: boolean;
+  isError: boolean;
+} = {
+  data: mockArticle,
+  isFetching: false,
+  isError: false,
+};
+
+vi.mock('@news/api/newsApi', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@news/api/newsApi')>();
+
+  return {
+    ...actual,
+    useGetNewsByDetailsQuery: () => ({
+      get data() {
+        return mockQueryState.data;
+      },
+      get isFetching() {
+        return mockQueryState.isFetching;
+      },
+      get isError() {
+        return mockQueryState.isError;
+      },
+    }),
+  };
+});
 
 describe('NewsDetails', () => {
-  let mockFetch: Mock;
-
   beforeEach(() => {
-    vi.restoreAllMocks();
-    mockFetch = vi.spyOn(window, 'fetch');
+    vi.clearAllMocks();
   });
 
-  async function customRender() {
-    await act(async () => {
-      render(
+  async function customRender(options?: {
+    data?: Article;
+    isFetching?: boolean;
+    isError?: boolean;
+  }) {
+    mockQueryState = {
+      data: options?.data,
+      isFetching: options?.isFetching ?? false,
+      isError: options?.isError ?? false,
+    };
+
+    const store = createTestStore();
+
+    render(
+      <Provider store={store}>
         <MemoryRouter
           initialEntries={[`/details/?page=1&${DETAILS_KEY}=SomeText`]}
         >
@@ -27,8 +66,8 @@ describe('NewsDetails', () => {
           <SearchParamsDisplay />
           <PathDisplay />
         </MemoryRouter>
-      );
-    });
+      </Provider>
+    );
 
     const user = userEvent.setup();
     const searchParams = screen.getByTestId('search-params');
@@ -42,21 +81,11 @@ describe('NewsDetails', () => {
   }
 
   it('should render without breaking', async () => {
-    await customRender();
+    await customRender({ data: mockArticle });
   });
 
   it('should render news details', async () => {
-    mockFetch.mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: () =>
-        Promise.resolve({
-          status: 'ok',
-          articles: [mockArticle],
-          totalResults: 1,
-        }),
-    } as Response);
-    await customRender();
+    await customRender({ data: mockArticle });
 
     const title = screen.getByText('Title');
 
@@ -64,17 +93,7 @@ describe('NewsDetails', () => {
   });
 
   it('should redirect to / on close button click', async () => {
-    mockFetch.mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: () =>
-        Promise.resolve({
-          status: 'ok',
-          articles: [mockArticle],
-          totalResults: 1,
-        }),
-    } as Response);
-    const { user, pathName } = await customRender();
+    const { user, pathName } = await customRender({ data: mockArticle });
 
     const closeButton = await screen.findByRole('button');
     await user.click(closeButton);
@@ -83,64 +102,22 @@ describe('NewsDetails', () => {
   });
 
   it('should inform if article not found', async () => {
-    mockFetch.mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: () =>
-        Promise.resolve({
-          status: 'ok',
-          articles: [],
-          totalResults: 0,
-        }),
-    } as Response);
+    await customRender({ data: undefined });
 
-    await customRender();
-
-    await waitFor(() => {
-      expect(
-        screen.queryByText(TEXT.features.news.newsDetails.notFound)
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('should render articles on api response status non 4xx/5xx', async () => {
-    mockFetch.mockResolvedValue({
-      ok: false,
-      status: 300,
-      json: () =>
-        Promise.resolve({
-          status: 'ok',
-          articles: [mockArticle],
-          totalResults: 1,
-        }),
-    } as Response);
-
-    await customRender();
-
-    await waitFor(() => {
-      expect(screen.queryByText('Title')).toBeInTheDocument();
-    });
-  });
-
-  it('should show error message on api status 4xx', async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 404 });
-    await customRender();
-
-    await waitFor(() => {
-      expect(screen.queryByText('Title')).not.toBeInTheDocument();
-    });
     expect(
-      screen.getByText(TEXT.features.news.newsDetails.fetchError)
+      screen.getByText(TEXT.features.news.newsDetails.notFound)
     ).toBeInTheDocument();
   });
 
-  it('should show error message on api status 5xx', async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 500 });
-    await customRender();
+  it('should inform if data is loading', async () => {
+    await customRender({ isFetching: true });
 
-    await waitFor(() => {
-      expect(screen.queryByText('Title')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByText(/title/i)).not.toBeInTheDocument();
+  });
+
+  it('should inform if there was an error during data loading', async () => {
+    await customRender({ isError: true });
+
     expect(
       screen.getByText(TEXT.features.news.newsDetails.fetchError)
     ).toBeInTheDocument();

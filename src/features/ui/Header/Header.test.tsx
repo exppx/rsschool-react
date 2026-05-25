@@ -1,19 +1,33 @@
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import Header from './Header';
 import { TEXT } from '@/constants/text';
 import { TestErrorBoundary } from '@/__tests__/components';
+import { createTestStore } from '@/__tests__/store';
+import Header from './Header';
 
 import styles from './Header.module.scss';
 
 describe('Header', () => {
-  it('should render without breaking', () => {
+  function customRender(options?: { initialEntries?: string[] }) {
+    const store = createTestStore();
+
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={options?.initialEntries ?? ['/']}>
+          <Header />
+        </MemoryRouter>
+      </Provider>
     );
+
+    return {
+      store,
+    };
+  }
+
+  it('should render without breaking', () => {
+    customRender();
 
     expect(
       screen.getByRole('heading', { name: TEXT.ui.header.title })
@@ -21,11 +35,7 @@ describe('Header', () => {
   });
 
   it('should set class of active link according to path', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Header />
-      </MemoryRouter>
-    );
+    customRender();
 
     expect(screen.getByRole('link', { name: TEXT.ui.header.home })).toHaveClass(
       styles.navLinkActive
@@ -33,11 +43,7 @@ describe('Header', () => {
   });
 
   it('should set class of active link according to path', () => {
-    render(
-      <MemoryRouter initialEntries={['/about']}>
-        <Header />
-      </MemoryRouter>
-    );
+    customRender({ initialEntries: ['/about'] });
 
     expect(
       screen.getByRole('link', { name: TEXT.ui.header.about })
@@ -46,18 +52,21 @@ describe('Header', () => {
 
   it('should throw an error when button is clicked', async () => {
     const message = 'error happened';
+    const store = createTestStore();
     render(
-      <MemoryRouter>
-        <TestErrorBoundary message={message}>
-          <Header />
-        </TestErrorBoundary>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <TestErrorBoundary message={message}>
+            <Header />
+          </TestErrorBoundary>
+        </MemoryRouter>
+      </Provider>
     );
+    const user = userEvent.setup();
+
     const button = screen.getByRole('button', {
       name: TEXT.ui.header.errorButton,
     });
-    const user = userEvent.setup();
-
     await user.click(button);
 
     expect(screen.getByText(message)).toBeInTheDocument();
