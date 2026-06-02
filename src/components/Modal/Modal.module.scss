@@ -1,0 +1,56 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(#000000, 0.5);
+}
+
+.modal {
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #d9d6ff;
+}
+
+.modalHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #2f3658;
+}
+
+.modalTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.modalCloseButton {
+  position: absolute;
+  right: -0.5rem;
+  top: -0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff4d4d;
+  color: #ffffff;
+  border-radius: 50%;
+  border: 1px solid #7d1515;
+  cursor: pointer;
+}
