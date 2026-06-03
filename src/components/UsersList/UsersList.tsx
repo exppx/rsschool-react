@@ -9,24 +9,26 @@ function UsersList() {
 
   return (
     <ul className={styles['users-list']}>
-      {users.map(({ id, name, email, age, sex, image, password, country }) => (
-        <li
-          key={email}
-          className={`${styles['user']} ${recentUser?.id === id ? styles['user_recent'] : ''}`}
-        >
-          <span className={styles['user__info']}>Name: {name}</span>
-          <span className={styles['user__info']}>Email: {email}</span>
-          <span className={styles['user__info']}>Age: {age}</span>
-          <span className={styles['user__info']}> Sex: {sex}</span>
-          <span className={styles['user__info']}>Password: {password}</span>
-          <span className={styles['user__info']}>Country: {country}</span>
-          <img
-            className={styles['user__image']}
-            src={image}
-            alt={`image of ${name}`}
-          />
-        </li>
-      ))}
+      {users.map(
+        ({ id, name, email, age, sex, image, password, country }, index) => (
+          <li
+            key={index}
+            className={`${styles['user']} ${recentUser?.id === id ? styles['user_recent'] : ''}`}
+          >
+            <span className={styles['user__info']}>Name: {name}</span>
+            <span className={styles['user__info']}>Email: {email}</span>
+            <span className={styles['user__info']}>Age: {age}</span>
+            <span className={styles['user__info']}> Sex: {sex}</span>
+            <span className={styles['user__info']}>Password: {password}</span>
+            <span className={styles['user__info']}>Country: {country}</span>
+            <img
+              className={styles['user__image']}
+              src={image}
+              alt={`image of ${name}`}
+            />
+          </li>
+        )
+      )}
     </ul>
   );
 }

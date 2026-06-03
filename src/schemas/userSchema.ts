@@ -67,6 +67,9 @@ export function getUserSchema(countries: string[]) {
       .oneOf(['male', 'female', 'not specified'] as const),
 
     image: mixed<File>()
+      .transform((value) => {
+        return value?.[0] ?? value;
+      })
       .required('This field is required')
       .test({
         name: 'file-format',
@@ -110,6 +113,7 @@ export function getUserSchema(countries: string[]) {
     termsAndConditions: boolean()
       .defined()
       .transform((_, originalValue) => {
+        if (typeof originalValue === 'boolean') return originalValue;
         return originalValue === 'on';
       })
       .oneOf([true], 'You must agree with terms and conditions'),

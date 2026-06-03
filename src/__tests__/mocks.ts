@@ -1,11 +1,15 @@
 import type { StoredUser, User } from '@/types/users';
 
+export const mockFile = new File(['image'], 'avatar.png', {
+  type: 'image/png',
+});
+
 export const mockUser: User = {
   name: 'John',
   email: 'john@test.com',
   age: 20,
   sex: 'male',
-  image: new File(['a'], 'avatar.png'),
+  image: mockFile,
   password: '123456',
   repeatedPassword: '123456',
   country: 'Germany',
