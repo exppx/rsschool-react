@@ -17,9 +17,10 @@
   gap: 0.5rem;
   border-radius: 0.5rem;
   background-color: #d9d6ff;
+  max-height: 90dvh;
 }
 
-.modalHeader {
+.modal__header {
   width: 100%;
   display: flex;
   align-items: center;
@@ -27,18 +28,18 @@
   border-bottom: 2px solid #2f3658;
 }
 
-.modalTitleContainer {
+.modal__title-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.modalTitle {
+.modal__title {
   font-size: 1.25rem;
   line-height: 1.5;
 }
 
-.modalCloseButton {
+.modal__close-button {
   position: absolute;
   right: -0.5rem;
   top: -0.5rem;
@@ -53,4 +54,23 @@
   border-radius: 50%;
   border: 1px solid #7d1515;
   cursor: pointer;
+}
+
+.content {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(77, 72, 133);
+    border: 0.25rem solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
 }

@@ -3,6 +3,7 @@ import type React from 'react';
 import Portal from '@/components/Portal/Portal';
 
 import styles from './Modal.module.scss';
+import { ModalContext } from '@/contexts/ModalContext';
 
 type ModalProps = {
   title: string;
@@ -94,31 +95,33 @@ function Modal({ title, isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
-    <Portal>
-      <div
-        className={styles.overlay}
-        onClick={handleOverlayClick}
-        role="dialog"
-        aria-modal="true"
-      >
-        <div className={styles.modal} ref={modalRef}>
-          <div className={styles.modalHeader}>
-            <div className={styles.modalTitleContainer}>
-              <h2 className={styles.modalTitle}>{title}</h2>
+    <ModalContext.Provider value={{ closeModal: handleClose }}>
+      <Portal>
+        <div
+          className={styles['overlay']}
+          onPointerDown={handleOverlayClick}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className={styles['modal']} ref={modalRef}>
+            <div className={styles['modal__header']}>
+              <div className={styles['modal__title-container']}>
+                <h2 className={styles['modal__title']}>{title}</h2>
+              </div>
+              <button
+                className={styles['modal__close-button']}
+                onClick={handleClose}
+                ref={closeButtonRef}
+              >
+                ✕
+              </button>
             </div>
-            <button
-              className={styles.modalCloseButton}
-              onClick={handleClose}
-              ref={closeButtonRef}
-            >
-              ✕
-            </button>
-          </div>
 
-          {children}
+            <div className={styles['content']}>{children}</div>
+          </div>
         </div>
-      </div>
-    </Portal>
+      </Portal>
+    </ModalContext.Provider>
   );
 }
 

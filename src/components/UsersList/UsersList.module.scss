@@ -1,0 +1,27 @@
+.users-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1rem;
+}
+
+.user {
+  list-style: none;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
+  border: 2px solid #323266;
+  background-color: #cfcfff;
+  box-shadow: 0 2px 4px rgba(#000000, 0.5);
+}
+
+.user_recent {
+  border-color: #5d6632;
+  background-color: #f8ffcf;
+}
+
+.user__image {
+  max-width: 100%;
+  border-radius: 0.25rem;
+}

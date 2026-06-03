@@ -16,3 +16,23 @@ button {
   font-family: inherit;
   font-size: inherit;
 }
+
+input {
+  font-size: 0.75rem;
+}
+
+input:not([type='file']) {
+  padding: 0.25rem 0.5rem;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

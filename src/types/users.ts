@@ -1,11 +1,8 @@
-export type Gender = 'male' | 'female' | 'not specified';
+import { getUserSchema } from '@/schemas/userSchema';
+import type { InferType } from 'yup';
 
-export type User = {
-  name: string;
-  age: number;
-  email: string;
-  gender: Gender;
-  imageBase64: string;
-  password: string;
-  country: string;
-};
+export type User = InferType<ReturnType<typeof getUserSchema>>;
+export type StoredUser = Omit<
+  User,
+  'image' | 'repeatedPassword' | 'termsAndConditions'
+> & { image: string; id: string };
