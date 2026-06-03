@@ -204,6 +204,6 @@ describe('ControlledForm', () => {
       setTimeout(resolve, 3100);
     });
 
-    expect(store.getState().users.recentUser).toEqual(null);
+    expect(store.getState().users.recentUser).toBeNull();
   });
 });

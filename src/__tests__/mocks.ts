@@ -1,3 +1,4 @@
+import type { UsersState } from '@/store/usersSlice';
 import type { StoredUser, User } from '@/types/users';
 
 export const mockFile = new File(['image'], 'avatar.png', {
@@ -26,4 +27,14 @@ export const mockStoredUser: StoredUser = {
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAXYBTksmCAALAAAAAABAAEAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAATSURBVBjTY2MgFGBgQAT/gcSAEAEA+QAD/yendZ8AAAAASUVORK5CYII=',
   password: '123456',
   country: 'Germany',
+};
+
+export const mockInitialState: UsersState = {
+  users: [],
+  recentUser: null,
+  countries: ['Germany', 'France'],
+};
+
+export const mockRootState = {
+  users: mockInitialState,
 };

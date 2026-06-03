@@ -112,6 +112,7 @@ function Modal({ title, isOpen, onClose, children }: ModalProps) {
                 className={styles['modal__close-button']}
                 onClick={handleClose}
                 ref={closeButtonRef}
+                aria-label="close button"
               >
                 ✕
               </button>

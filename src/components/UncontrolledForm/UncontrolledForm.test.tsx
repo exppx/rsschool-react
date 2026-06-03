@@ -144,13 +144,13 @@ describe('UncontrolledForm', () => {
 
     await user.click(submitButton);
 
-    expect(store.getState().users.recentUser).not.toEqual(null);
+    expect(store.getState().users.recentUser).not.toBeNull();
 
     await new Promise((resolve) => {
       setTimeout(resolve, 3100);
     });
 
-    expect(store.getState().users.recentUser).toEqual(null);
+    expect(store.getState().users.recentUser).toBeNull();
   });
 
   it('should not overwrite first validation error', async () => {
