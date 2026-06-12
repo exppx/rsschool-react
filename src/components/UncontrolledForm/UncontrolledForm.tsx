@@ -118,25 +118,31 @@ function UncontrolledForm() {
       <div className={styles['form__line']}>
         <label htmlFor="name">Name*</label>
         <input id="name" type="text" name="name" />
-        {errors.name && (
-          <div className={styles['form__error']}>{errors.name}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.name && errors.name}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
         <label htmlFor="email">Email*</label>
         <input id="email" type="text" name="email" />
-        {errors.email && (
-          <div className={styles['form__error']}>{errors.email}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.email && errors.email}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
         <label htmlFor="age">Age*</label>
         <input id="age" type="number" name="age" />
-        {errors.age && (
-          <div className={styles['form__error']}>{errors.age}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.age && errors.age}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
@@ -162,17 +168,21 @@ function UncontrolledForm() {
             <label htmlFor="sex-not-specified">Not specified</label>
           </div>
         </fieldset>
-        {errors.sex && (
-          <div className={styles['form__error']}>{errors.sex}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.sex && errors.sex}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
         <label htmlFor="image">Image*</label>
         <input id="image" type="file" name="image" />
-        {errors.image && (
-          <div className={styles['form__error']}>{errors.image}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.image && errors.image}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
@@ -183,9 +193,11 @@ function UncontrolledForm() {
           name="password"
           onChange={handlePasswordStrength}
         />
-        {errors.password && (
-          <div className={styles['form__error']}>{errors.password}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.password && errors.password}
+          </div>
+        }
         <span
           className={
             styles[`form__password-strength_${passwordStrength ?? ''}`]
@@ -198,17 +210,21 @@ function UncontrolledForm() {
       <div className={styles['form__line']}>
         <label htmlFor="repeatedPassword">Confirm password*</label>
         <input id="repeatedPassword" type="password" name="repeatedPassword" />
-        {errors.repeatedPassword && (
-          <div className={styles['form__error']}>{errors.repeatedPassword}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.repeatedPassword && errors.repeatedPassword}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
         <label htmlFor="country">Country*</label>
         <input id="country" type="text" list="countries" name="country" />
-        {errors.country && (
-          <div className={styles['form__error']}>{errors.country}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.country && errors.country}
+          </div>
+        }
       </div>
 
       <datalist id="countries">
@@ -227,9 +243,11 @@ function UncontrolledForm() {
           I accept terms and conditions
         </label>
       </div>
-      {errors.termsAndConditions && (
-        <div className={styles['form__error']}>{errors.termsAndConditions}</div>
-      )}
+      {
+        <div className={styles['form__error']}>
+          {errors.termsAndConditions && errors.termsAndConditions}
+        </div>
+      }
 
       <button type="submit">Submit</button>
     </form>

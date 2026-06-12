@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,7 +15,7 @@ import styles from './ControlledForm.module.scss';
 function ControlledForm() {
   const countries = useSelector(selectCountries);
   const dispatch = useDispatch();
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal, updateFocusableElements } = useContext(ModalContext);
   const [passwordStrength, setPasswordStrength] =
     useState<PasswordStrength | null>(null);
 
@@ -28,6 +28,10 @@ function ControlledForm() {
     resolver: yupResolver(getUserSchema(countries)),
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    updateFocusableElements();
+  }, [updateFocusableElements, isValid]);
 
   function handlePasswordStrength(event: React.ChangeEvent<HTMLInputElement>) {
     setPasswordStrength(getPasswordStrength(event.target.value));
@@ -69,25 +73,31 @@ function ControlledForm() {
       <div className={styles['form__line']}>
         <label htmlFor="name">Name*</label>
         <input id="name" type="text" {...register('name')} />
-        {errors.name && (
-          <div className={styles['form__error']}>{errors.name.message}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.name && errors.name.message}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
         <label htmlFor="email">Email*</label>
         <input id="email" type="text" {...register('email')} />
-        {errors.email && (
-          <div className={styles['form__error']}>{errors.email.message}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.email && errors.email.message}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
         <label htmlFor="age">Age*</label>
         <input id="age" type="number" {...register('age')} />
-        {errors.age && (
-          <div className={styles['form__error']}>{errors.age.message}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.age && errors.age.message}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
@@ -128,9 +138,11 @@ function ControlledForm() {
       <div className={styles['form__line']}>
         <label htmlFor="image">Image*</label>
         <input id="image" type="file" {...register('image')} />
-        {errors.image && (
-          <div className={styles['form__error']}>{errors.image.message}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.image && errors.image.message}
+          </div>
+        }
       </div>
 
       <div className={styles['form__line']}>
@@ -138,12 +150,15 @@ function ControlledForm() {
         <input
           id="password"
           type="password"
-          {...register('password')}
-          onChange={handlePasswordStrength}
+          {...register('password', {
+            onChange: handlePasswordStrength,
+          })}
         />
-        {errors.password && (
-          <div className={styles['form__error']}>{errors.password.message}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.password && errors.password.message}
+          </div>
+        }
         <span
           className={
             styles[`form__password-strength_${passwordStrength ?? ''}`]
@@ -160,11 +175,11 @@ function ControlledForm() {
           type="password"
           {...register('repeatedPassword')}
         />
-        {errors.repeatedPassword && (
+        {
           <div className={styles['form__error']}>
-            {errors.repeatedPassword.message}
+            {errors.repeatedPassword && errors.repeatedPassword.message}
           </div>
-        )}
+        }
       </div>
 
       <div className={styles['form__line']}>
@@ -175,9 +190,11 @@ function ControlledForm() {
           list="countries"
           {...register('country')}
         />
-        {errors.country && (
-          <div className={styles['form__error']}>{errors.country.message}</div>
-        )}
+        {
+          <div className={styles['form__error']}>
+            {errors.country && errors.country.message}
+          </div>
+        }
       </div>
 
       <datalist id="countries">
@@ -196,11 +213,11 @@ function ControlledForm() {
           I accept terms and conditions
         </label>
       </div>
-      {errors.termsAndConditions && (
+      {
         <div className={styles['form__error']}>
-          {errors.termsAndConditions.message}
+          {errors.termsAndConditions && errors.termsAndConditions.message}
         </div>
-      )}
+      }
 
       <button type="submit" disabled={!isValid}>
         Submit

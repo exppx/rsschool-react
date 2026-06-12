@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type React from 'react';
 import Portal from '@/components/Portal/Portal';
+import { ModalContext } from '@/contexts/ModalContext';
 
 import styles from './Modal.module.scss';
-import { ModalContext } from '@/contexts/ModalContext';
 
 type ModalProps = {
   title: string;
@@ -15,14 +15,14 @@ type ModalProps = {
 function Modal({ title, isOpen, onClose, children }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const focusableElementsRef = useRef<HTMLElement[]>([]);
-  const activeIndexRef = useRef<number>(0);
+  const firstFocusableElementRef = useRef<HTMLElement>(null);
+  const lastFocusableElementRef = useRef<HTMLElement>(null);
 
-  const previousFocusedElement = useRef<HTMLElement | null>(null);
+  const initialFocusedElement = useRef<HTMLElement | null>(null);
 
   const handleClose = useCallback(() => {
     onClose();
-    previousFocusedElement.current?.focus();
+    initialFocusedElement.current?.focus();
   }, [onClose]);
 
   function handleOverlayClick(event: React.MouseEvent) {
@@ -34,49 +34,53 @@ function Modal({ title, isOpen, onClose, children }: ModalProps) {
   function handleTab(event: KeyboardEvent) {
     if (event.key !== 'Tab') return;
 
-    const total = focusableElementsRef.current.length;
-
-    if (total === 0) return;
+    const target = event.target;
 
     if (!event.shiftKey) {
-      if (activeIndexRef.current + 1 === total) {
-        activeIndexRef.current = 0;
-      } else {
-        activeIndexRef.current += 1;
+      if (target === lastFocusableElementRef.current) {
+        event.preventDefault();
+        firstFocusableElementRef.current?.focus();
       }
     } else {
-      if (activeIndexRef.current - 1 < 0) {
-        activeIndexRef.current = total - 1;
-      } else {
-        activeIndexRef.current -= 1;
+      if (target === firstFocusableElementRef.current) {
+        event.preventDefault();
+        lastFocusableElementRef.current?.focus();
       }
     }
-
-    focusableElementsRef.current[activeIndexRef.current].focus();
-    event.preventDefault();
   }
+
+  const updateFocusableElements = useCallback(() => {
+    if (!modalRef.current) return;
+
+    const focusableElements = Array.from(
+      modalRef.current.querySelectorAll(
+        'a, button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled)'
+      )
+    ).filter((e) => e instanceof HTMLElement);
+
+    firstFocusableElementRef.current = focusableElements[0];
+    lastFocusableElementRef.current =
+      focusableElements[focusableElements.length - 1];
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
 
-    previousFocusedElement.current =
+    initialFocusedElement.current =
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
 
-    if (modalRef.current) {
-      focusableElementsRef.current = Array.from(
-        modalRef.current.querySelectorAll('a, button, input, textarea, select')
-      );
-    }
+    if (modalRef.current) updateFocusableElements();
+
+    closeButtonRef.current?.focus();
 
     document.addEventListener('keydown', handleTab);
-    closeButtonRef.current?.focus();
 
     return () => {
       document.removeEventListener('keydown', handleTab);
     };
-  }, [isOpen]);
+  }, [isOpen, updateFocusableElements]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
@@ -95,7 +99,9 @@ function Modal({ title, isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
-    <ModalContext.Provider value={{ closeModal: handleClose }}>
+    <ModalContext.Provider
+      value={{ closeModal: handleClose, updateFocusableElements }}
+    >
       <Portal>
         <div
           className={styles['overlay']}

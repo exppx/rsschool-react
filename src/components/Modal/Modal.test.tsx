@@ -45,7 +45,7 @@ describe('Modal', () => {
 
   it('should not render content if is not open', () => {
     customRender({ isOpen: false, content: <div>Content</div> });
-    screen.debug();
+
     expect(screen.queryByText(/content/i)).not.toBeInTheDocument();
   });
 

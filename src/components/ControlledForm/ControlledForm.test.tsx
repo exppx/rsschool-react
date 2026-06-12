@@ -18,7 +18,12 @@ describe('ControlledForm', () => {
 
     render(
       <Provider store={store}>
-        <ModalContext.Provider value={{ closeModal: mockCloseModal }}>
+        <ModalContext.Provider
+          value={{
+            closeModal: mockCloseModal,
+            updateFocusableElements: vi.fn(),
+          }}
+        >
           <ControlledForm />
         </ModalContext.Provider>
       </Provider>
