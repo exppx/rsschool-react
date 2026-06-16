@@ -1,0 +1,53 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form__line {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form__horizontal-line {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form__error {
+  font-size: 0.75rem;
+  color: #ff0000;
+  height: 0.75rem;
+}
+
+.form__fieldset {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form__terms-and-conditions {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form__password-strength_weak {
+  color: #ff0000;
+}
+
+.form__password-strength_medium {
+  color: #808000;
+}
+
+.form__password-strength_good {
+  color: #30c200;
+}
+
+.form__password-strength_strong {
+  color: #126d00;
+}

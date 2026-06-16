@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input {
+  font-size: 0.75rem;
+}
+
+input:not([type='file']) {
+  padding: 0.25rem 0.5rem;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
