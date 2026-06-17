@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { TEXT } from '@/constants/text';
+import { useTranslations } from 'next-intl';
+import { usePathname } from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/button';
 import { BuggyComponent } from '@/components/buggy-component';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
-import { newsApi } from '@/app/(news)/_api/newsApi';
+import { newsApi } from '@/app/[locale]/(news)/_api/newsApi';
+import LocaleSwitcher from '../locale-switcher/locale-switcher';
 
 import styles from './header.module.scss';
 
 function Header() {
+  const t = useTranslations('components.header');
   const pathName = usePathname();
   const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
@@ -20,7 +22,7 @@ function Header() {
   return (
     <header className={styles['header']}>
       <div className={styles['wrapper']}>
-        <h1 className={styles['heading']}>{TEXT.ui.header.title}</h1>
+        <h1 className={styles['heading']}>{t('title')}</h1>
 
         <nav className={styles['nav']}>
           <Link
@@ -32,7 +34,7 @@ function Header() {
                 : styles['nav-link']
             }
           >
-            {TEXT.ui.header.home}
+            {t('home')}
           </Link>
           <Link
             href="/about"
@@ -43,10 +45,12 @@ function Header() {
                 : styles['nav-link']
             }
           >
-            {TEXT.ui.header.about}
+            {t('about')}
           </Link>
 
           <ThemeToggleButton />
+
+          <LocaleSwitcher />
 
           <Button
             variant="success"
@@ -55,7 +59,7 @@ function Header() {
               dispatch(newsApi.util.invalidateTags([{ type: 'News' }]));
             }}
           >
-            {TEXT.ui.header.invalidateCache}
+            {t('invalidateCache')}
           </Button>
 
           <Button
@@ -65,7 +69,7 @@ function Header() {
               setIsError(true);
             }}
           >
-            {TEXT.ui.header.errorButton}
+            {t('errorButton')}
           </Button>
         </nav>
       </div>

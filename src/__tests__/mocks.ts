@@ -1,4 +1,4 @@
-import type { Article, NewsApiResponse } from '@/app/(news)/_types';
+import type { Article, NewsApiResponse } from '@/app/[locale]/(news)/_types';
 
 export const mockArticle: Article = {
   source: {

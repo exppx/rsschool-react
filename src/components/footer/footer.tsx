@@ -1,18 +1,20 @@
-import { TEXT } from '@/constants/text';
 import { LINKS } from '@/constants/links';
 
 import styles from './footer.module.scss';
+import { useTranslations } from 'next-intl';
 
 function Footer() {
+  const t = useTranslations('components.footer');
+
   return (
     <footer className={styles['footer']}>
       <div className={styles['wrapper']}>
         <div className={styles['credits']}>
-          <span>{`${TEXT.ui.footer.createdBy} `}</span>
+          <span>{`${t('createdBy')} `}</span>
           <a href={LINKS.creatorGitHub} target="_blank">
-            {TEXT.ui.footer.creator}
+            {t('creator')}
           </a>
-          <span>{` ${TEXT.ui.footer.createdIn}`}</span>
+          <span>{` ${t('createdIn')}`}</span>
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { newsReducer } from '@/app/(news)/_store';
-import { newsApi } from '@/app/(news)/_api/newsApi';
+import { newsReducer } from '@/app/[locale]/(news)/_store';
+import { newsApi } from '@/app/[locale]/(news)/_api/newsApi';
 
 export function createTestStore() {
   return configureStore({

@@ -1,4 +1,4 @@
-import { TEXT } from '@/constants/text';
+import { useTranslations } from 'next-intl';
 
 import styles from './error-message.module.scss';
 
@@ -7,9 +7,11 @@ type ErrorMessageProps = {
 };
 
 function ErrorMessage({ message }: ErrorMessageProps) {
+  const t = useTranslations('ui.errorMessage');
+
   return (
     <div className={styles['error-container']}>
-      <p className={styles['error__heading']}>{TEXT.ui.errorMessage.heading}</p>
+      <p className={styles['error__heading']}>{t('heading')}</p>
       <p className={styles['error__message']}>{message}</p>
     </div>
   );
