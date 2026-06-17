@@ -1,19 +1,17 @@
-import { setRequestLocale } from 'next-intl/server';
-import { useTranslations } from 'next-intl';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { LINKS } from '@/constants/links';
+import { routing } from '@/i18n/routing';
 
 import styles from './page.module.scss';
-import { routing } from '@/i18n/routing';
-import { use } from 'react';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-function Page({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = use(params);
+async function Page({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   setRequestLocale(locale);
-  const t = useTranslations('pages.about');
+  const t = await getTranslations('pages.about');
 
   return (
     <div className={styles['about-page']}>

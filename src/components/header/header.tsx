@@ -8,6 +8,7 @@ import { Button } from '@/components/button';
 import { BuggyComponent } from '@/components/buggy-component';
 import { ThemeToggleButton } from '@/components/theme-toggle-button';
 import LocaleSwitcher from '../locale-switcher/locale-switcher';
+import invalidateCache from '@/actions/invalidateCache';
 
 import styles from './header.module.scss';
 
@@ -49,13 +50,15 @@ function Header() {
 
           <LocaleSwitcher />
 
-          <Button
-            variant="success"
-            className={styles['invalidate-cache-button']}
-            onClick={() => {}}
-          >
-            {t('invalidateCache')}
-          </Button>
+          <form action={invalidateCache}>
+            <Button
+              variant="success"
+              className={styles['invalidate-cache-button']}
+              type="submit"
+            >
+              {t('invalidateCache')}
+            </Button>
+          </form>
 
           <Button
             variant="error"

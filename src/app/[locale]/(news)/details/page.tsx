@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
 import { DETAILS_KEY, PAGE_KEY, QUERY_KEY } from '@/constants/searchParamsKeys';
-import type { NewsApiResponse } from '@/app/[locale]/(news)/_types';
 import { ErrorMessage } from '@/components/error-message';
 import CloseDetailsButton from './_components/CloseDetailsButton/CloseDetailsButton';
-import Image from 'next/image';
+import getNewsByDetails from '../_api/getNewsByDetails';
 
 import styles from './page.module.scss';
 
@@ -26,16 +26,7 @@ async function Page({ searchParams }: PageProps<'/[locale]'>) {
       ? ''
       : params[DETAILS_KEY];
 
-  const res = await fetch(
-    `${process.env.BASE_NEWS_API_URL}everything?q=${details}&searchIn=title&pageSize=1&page=1`,
-    {
-      cache: 'no-store',
-      headers: {
-        'X-Api-Key': process.env.NEWS_API_KEY ?? '',
-      },
-    }
-  );
-  const news: NewsApiResponse = await res.json();
+  const response = await getNewsByDetails(details);
 
   if (details === '')
     return (
@@ -44,14 +35,14 @@ async function Page({ searchParams }: PageProps<'/[locale]'>) {
       </div>
     );
 
-  if (!res.ok)
+  if (response.isError)
     return (
       <div className={styles['details-container']}>
         <ErrorMessage message={t('fetchError')} />
       </div>
     );
 
-  const article = news.articles.at(0);
+  const article = response.data.articles.at(0);
 
   if (article === undefined)
     return (
