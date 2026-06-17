@@ -1,49 +1,68 @@
 'use client';
 
-import React from 'react';
+import React, { useActionState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslations } from 'next-intl';
 import {
   selectSelectedIds,
   unselectAllNews,
 } from '@/app/[locale]/(news)/_store';
-import { convertArrayOfObjectsToCsv } from '@/utils/csv/convertArrayOfObjectsToCsv';
-import { downloadCsv } from '@/utils/csv/downloadCsv';
+import { downloadNews } from '../../_api/downloadNews';
 import { Button } from '@/components/button';
-import { useLazyGetNewsByDetailsListQuery } from '@/app/[locale]/(news)/_api/newsApi';
 
 import styles from './news-flyout.module.scss';
 
+const initialState: {
+  error: null | string;
+  csv?: string;
+  fileName?: string;
+} = {
+  error: null,
+  csv: undefined,
+  fileName: undefined,
+};
+
 function NewsFlyout() {
   const t = useTranslations('features.news.newsFlyout');
-  const [getNewsByDetailsList, { isLoading, isError }] =
-    useLazyGetNewsByDetailsListQuery();
-
   const dispatch = useDispatch();
   const selectedIds = useSelector(selectSelectedIds);
   const selectedCount = selectedIds.length;
+  const [state, formAction, pending] = useActionState(
+    downloadNews,
+    initialState
+  );
 
-  if (selectedCount === 0) return null;
+  useEffect(() => {
+    if (!state.csv) return;
 
-  async function handleDownload() {
-    const result = await getNewsByDetailsList(selectedIds, true);
+    const blob = new Blob([state.csv], {
+      type: 'text/csv;charset=utf-8;',
+    });
 
-    if (!result.data) return;
+    const url = URL.createObjectURL(blob);
 
-    const csv = convertArrayOfObjectsToCsv(result.data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${state.fileName}`;
 
-    downloadCsv(csv, `${selectedCount}_news.csv`);
-  }
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+  }, [state.csv, state.fileName]);
 
   function handleUnselect() {
     dispatch(unselectAllNews());
   }
 
+  if (selectedCount === 0) return null;
+
   let content: React.ReactNode;
 
-  if (isError) {
+  if (state?.error) {
     content = <span className={styles['error']}>{t('error')}</span>;
-  } else if (isLoading) {
+  } else if (pending) {
     content = <span className={styles['loading']}>{t('downloading')}</span>;
   } else {
     content = (
@@ -58,11 +77,18 @@ function NewsFlyout() {
     <div className={styles['flyout']}>
       {content}
 
-      <Button variant="success" onClick={handleDownload} disabled={isLoading}>
-        {t('download1')}
-        {selectedCount}
-        {t('download2')}
-      </Button>
+      <form action={formAction} className={styles['form']}>
+        <input
+          type="hidden"
+          value={JSON.stringify(selectedIds)}
+          name="detailsList"
+        />
+        <Button variant="success" disabled={pending} type="submit">
+          {t('download1')}
+          {selectedCount}
+          {t('download2')}
+        </Button>
+      </form>
 
       <Button variant="error" onClick={handleUnselect}>
         {t('unselect')}

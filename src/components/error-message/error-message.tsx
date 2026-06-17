@@ -7,7 +7,7 @@ type ErrorMessageProps = {
 };
 
 function ErrorMessage({ message }: ErrorMessageProps) {
-  const t = useTranslations('ui.errorMessage');
+  const t = useTranslations('components.errorMessage');
 
   return (
     <div className={styles['error-container']}>

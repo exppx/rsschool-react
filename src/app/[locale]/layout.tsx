@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import Providers from '../providers';
+import Providers from './providers';
 
 import '../globals.scss';
 import styles from './layout.module.scss';
