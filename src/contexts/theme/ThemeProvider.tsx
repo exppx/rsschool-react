@@ -1,3 +1,5 @@
+'use client';
+
 import { useLayoutEffect } from 'react';
 import type { AppTheme } from '@/types/theme';
 import { THEME_KEY } from '@/constants/localStorageKeys';

@@ -1,0 +1,19 @@
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.results {
+  padding: 2rem 0;
+  display: flex;
+  gap: 1rem;
+
+  & > :first-child {
+    flex: 1 1 60%;
+  }
+
+  & > :not(:only-child):last-child {
+    flex: 0 0 40%;
+  }
+}

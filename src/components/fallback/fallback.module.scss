@@ -1,0 +1,27 @@
+@use '@/styles/_mixins' as *;
+
+.fallback-container {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: var(--brand-primary);
+  background-image: radial-gradient(
+    closest-corner,
+    var(--danger-border),
+    var(--brand-primary)
+  );
+}
+
+.fallback__message {
+  text-align: center;
+  font-size: 2rem;
+  line-height: 1.25;
+
+  @include media-mobile {
+    font-size: 1.5rem;
+  }
+}

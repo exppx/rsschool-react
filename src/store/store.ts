@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { newsReducer } from '@news/store';
-import { newsApi } from '@/features/news/api/newsApi';
+import { newsReducer } from '@/app/(news)/_store';
+import { newsApi } from '@/app/(news)/_api/newsApi';
 
 export const store = configureStore({
   reducer: {
