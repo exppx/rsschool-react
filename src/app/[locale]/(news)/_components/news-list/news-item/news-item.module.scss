@@ -1,0 +1,35 @@
+@use '@/styles/_mixins' as *;
+
+.link {
+  color: inherit;
+  text-decoration: inherit;
+  width: 100%;
+}
+
+.article {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.description {
+  font-size: 1.25rem;
+  line-height: 1.25;
+
+  @include media-tablet {
+    font-size: 1rem;
+  }
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+}

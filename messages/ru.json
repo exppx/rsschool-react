@@ -1,0 +1,66 @@
+{
+  "components": {
+    "header": {
+      "title": "Поиск новостей!",
+      "errorButton": "Не трогать",
+      "about": "О приложении",
+      "home": "Главная",
+      "invalidateCache": "Очистить кэш"
+    },
+    "footer": {
+      "createdBy": "Создано",
+      "creator": "exppx",
+      "createdIn": "в 2026 году"
+    },
+    "errorMessage": {
+      "heading": "Ошибка"
+    },
+    "fallback": {
+      "heading": "Упс!",
+      "message": "Что-то пошло не так 😔"
+    }
+  },
+  "features": {
+    "news": {
+      "searchPlaceholder": "Поиск новостей...",
+      "newsList": {
+        "fetchError": "Не удалось получить данные. Попробуйте позже.",
+        "placeholder": "Ничего не найдено",
+        "newsItem": {
+          "viewSource": "Открыть источник"
+        }
+      },
+      "newsDetails": {
+        "imageAlt": "Изображение статьи",
+        "author": "Автор: ",
+        "source": "Источник",
+        "noDetails": "Нет дополнительных данных",
+        "notFound": "Статья не найдена",
+        "fetchError": "Не удалось загрузить данные. Попробуйте позже."
+      },
+      "newsFlyout": {
+        "selected": "Выбрано: ",
+        "download1": "Скачать ",
+        "download2": " новостей",
+        "unselect": "Снять выделение",
+        "error": "Ошибка загрузки",
+        "downloading": "Загрузка..."
+      }
+    }
+  },
+  "pages": {
+    "about": {
+      "heading": "О приложении",
+      "description1": "Это приложение было разработано ",
+      "description2": " в 2026 году в рамках",
+      "authorName": "exppx",
+      "rsSchoolReact": "курса RS School React"
+    },
+    "notFound": {
+      "forOhFor": "404",
+      "notFound": "Страница не найдена",
+      "description": "Вернуться на главную",
+      "link": "← Назад"
+    }
+  }
+}
